@@ -1,0 +1,10 @@
+@import '../../assets/styles/variables';
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	justify-content: space-between;
+	width: 1435px;
+	background-color: $colorOne;
+}

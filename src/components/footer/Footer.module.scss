@@ -1,0 +1,25 @@
+@import '../../assets/styles/variables';
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: $colorThree;
+	padding: 0px 60px;
+
+	> .footer__contact-block {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		align-items: flex-end;
+		color: $colorOne;
+
+		a {
+			color: $colorOne;
+		}
+
+		> .footer__mail {
+			margin-bottom: 15px;
+		}
+	}
+}

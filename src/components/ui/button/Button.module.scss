@@ -1,0 +1,9 @@
+@import '../../../assets/styles/variables';
+
+.button-header {
+	width: 65px;
+	height: 26px;
+	border-radius: 5px;
+	background-color: $colorFive;
+	cursor: pointer;
+}

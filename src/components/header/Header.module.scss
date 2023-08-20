@@ -1,0 +1,39 @@
+@import '../../assets/styles/variables';
+
+.header {
+	background-color: $colorOne;
+	min-height: 93px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0px 60px;
+
+	> nav {
+		> .menu {
+			display: flex;
+			gap: 50px;
+
+			a {
+				font-size: $fz-mini;
+				color: $colorTwo;
+			}
+		}
+	}
+
+	> .header__block-auth {
+		display: flex;
+		gap: 18px;
+
+		> .noneButton {
+			background-color: rgba($color: $colorOne, $alpha: 0);
+			cursor: pointer;
+			color: $color-text-inactive;
+		}
+
+		> div {
+			width: 2px;
+			height: 26px;
+			background-color: $colorThree;
+		}
+	}
+}
