@@ -3,30 +3,48 @@ import styles from './Slider.module.scss';
 import { data } from './data.slider';
 
 const Slider: FC = () => {
-	const [currentIndex, setCurrentIndex] = useState(0);
+	// const [currentIndex, setCurrentIndex] = useState(0);
+	const [viewData, setViewData] = useState([0, 1, 2]);
 
 	const prevSlide = () => {
-		setCurrentIndex(prevIndex =>
-			prevIndex === 0 ? data.length - 1 : prevIndex - 1
-		);
-		console.log(currentIndex);
+		setViewData(prevState => {
+			const newState = prevState.map(elem => {
+				if (elem > 0) {
+					console.log(elem);
+					return elem - 1;
+				} else {
+					console.log(elem);
+					return (elem = data.length - 1);
+				}
+			});
+			return newState;
+		});
 	};
 
 	const nextSlide = () => {
-		setCurrentIndex(prevIndex => {
-			return prevIndex === data.length - 1 ? 0 : prevIndex + 1;
+		setViewData(prevState => {
+			const newState = prevState.map(elem => {
+				if (elem < data.length - 1) {
+					console.log(elem);
+					return elem + 1;
+				} else {
+					console.log(elem);
+					return (elem = 0);
+				}
+			});
+			return newState;
 		});
-		console.log(currentIndex);
 	};
 
 	return (
 		<div className={styles.wrapper}>
 			<button onClick={prevSlide}>
+				{/* <button> */}
 				<img src='/images/icon/arrows/arrow_left.svg' alt='arrow' />
 			</button>
 
 			<div className={styles['block-advantages']}>
-				{data.slice(currentIndex, currentIndex + 3).map(advant => {
+				{/* {data.slice(currentIndex, currentIndex + 3).map(advant => {
 					return (
 						<div
 							// data-index={index}
@@ -37,9 +55,26 @@ const Slider: FC = () => {
 							<p>{advant.description}</p>
 						</div>
 					);
+				})} */}
+				{data.map((advant, index) => {
+					if (
+						index === viewData[0] ||
+						index === viewData[1] ||
+						index === viewData[2]
+					)
+						return (
+							<div
+								key={advant.id}
+								className={styles['block-advantages__advantage']}
+							>
+								<img src={advant.img} alt='time' />
+								<p>{advant.description}</p>
+							</div>
+						);
 				})}
 			</div>
 			<button onClick={nextSlide}>
+				{/* <button> */}
 				<img src='/images/icon/arrows/arrow_right.svg' alt='arrow' />
 			</button>
 		</div>
