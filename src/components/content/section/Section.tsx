@@ -2,6 +2,7 @@ import cn from 'clsx';
 import React, { FC } from 'react';
 import Slider from '../../slider/Slider';
 import styles from './Section.module.scss';
+import tariffData from './data.tariff';
 
 interface ISectionProps {
 	section?: string;
@@ -39,34 +40,6 @@ const Section: FC<ISectionProps> = ({ section }) => {
 					<section className={cn(styles[section])}>
 						<div className={styles['home-two__block-content']}>
 							<h2 className={styles['home-two__title']}>Почему именно мы</h2>
-							{/* <div
-								className={cn(
-									styles['home-two__block-advantages'],
-									styles['block-advantages']
-								)}
-							>
-								<div className={styles['block-advantages__advantage']}>
-									<img src='/images/icon/time.svg' alt='time' />
-									<p>Высокая и оперативная скорость обработки заявки</p>
-								</div>
-								<div className={styles['block-advantages__advantage']}>
-									<img src='/images/icon/search.svg' alt='search' />
-									<p>
-										Огромная комплексная база данных, обеспечивающая объективный
-										ответ на запрос
-									</p>
-								</div>
-								<div className={styles['block-advantages__advantage']}>
-									<img
-										src='/images/icon/confidentiality.svg'
-										alt='confidentiality'
-									/>
-									<p>
-										Защита конфеденциальных сведений, не подлежащих разглашению
-										по федеральному законодательству
-									</p>
-								</div>
-							</div> */}
 							<Slider />
 						</div>
 						<img
@@ -80,7 +53,74 @@ const Section: FC<ISectionProps> = ({ section }) => {
 			{
 				// HELP: THREE
 				section === 'home-three' && (
-					<section className={cn(styles[section])}>Section</section>
+					<section className={cn(styles[section])}>
+						<h2>наши тарифы</h2>
+						<div
+							className={cn(
+								styles['home-three__block-tariff'],
+								styles['block-tariff']
+							)}
+						>
+							{tariffData.map(tariff => {
+								return (
+									<div
+										key={tariff.id}
+										className={cn(styles['block-tariff__tariff'])}
+									>
+										<div
+											className={cn(styles['block-tariff__title-block'])}
+											style={{
+												backgroundColor: tariff.color,
+												color: tariff.color === '#000000' ? 'white' : 'black',
+											}}
+										>
+											<div>
+												<h3>{tariff.title[0]}</h3>
+												<p>{tariff.title[1]}</p>
+											</div>
+											<img
+												src={tariff.img}
+												alt='image'
+												style={{
+													height:
+														tariff.img === '/images/icon/target.svg'
+															? '110px'
+															: '83px',
+													position:
+														tariff.img === '/images/icon/target.svg'
+															? 'absolute'
+															: 'static',
+												}}
+											/>
+										</div>
+										<div className={cn(styles['block-tariff__price-block'])}>
+											<p>{tariff.discount}</p>
+											<p className={styles['block-tariff__main-price']}>
+												{tariff.price}
+											</p>
+										</div>
+										<p className={cn(styles['block-tariff__price-form-month'])}>
+											{tariff.priceForMonth}
+										</p>
+										<div className={cn(styles['block-tariff__bonus-block'])}>
+											<p>В тариф входит:</p>
+											<ul>
+												{tariff.bonus.map(elem => {
+													return (
+														<li key={Math.random() + Math.random()}>
+															<img src='/images/icon/check.svg' alt='img' />
+															{elem}
+														</li>
+													);
+												})}
+											</ul>
+										</div>
+										<a href='#'>Подробнее</a>
+									</div>
+								);
+							})}
+						</div>
+					</section>
 				)
 			}
 		</>
