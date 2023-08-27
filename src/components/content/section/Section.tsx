@@ -17,6 +17,9 @@ const Section: FC<ISectionProps> = ({ section }) => {
 		password: '',
 	});
 
+	const [colorDateStart, setColorDateStart] = useState(0);
+	const [colorDateEnd, setColorDateEnd] = useState(0);
+
 	return (
 		<>
 			{
@@ -267,27 +270,48 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								<div className={styles['form__block-input']}>
 									<Input placeholder='10 цифр'>ИНН компании *</Input>
 									<div className={styles['form__block-select']}>
-										<label htmlFor='select'>Тональность</label>
+										<label
+											className={styles['form__label-select']}
+											htmlFor='select'
+										>
+											Тональность
+										</label>
 										<select defaultValue='Любая' id='select'>
 											<option value='Позитивная'>Позитивная</option>
 											<option value='Негативная'>Негативная</option>
 											<option value='Любая'>Любая</option>
 										</select>
 									</div>
-
 									<Input placeholder='от 1 до 1000'>
 										Количество документов в выдаче *
 									</Input>
 									<div className={styles['form__block-data-input']}>
 										<label>
 											Диапазон поиска *
-											<input className={styles.start_data} type='date' />
+											<input
+												className={cn({
+													[styles.start_data]: colorDateStart === 0,
+													[styles.start_data_noBefore]: colorDateStart === 1,
+												})}
+												type='date'
+												onClick={() => setColorDateStart(1)}
+												style={{
+													color: `rgba(0, 0, 0, ${colorDateStart})`,
+												}}
+											/>
 										</label>
 										<label>
 											<input
-												className={styles.end_data}
+												className={cn({
+													[styles.end_data]: colorDateEnd === 0,
+													[styles.end_data_noBefore]: colorDateEnd === 1,
+												})}
 												type='date'
 												max={Date.now()}
+												onClick={() => setColorDateEnd(1)}
+												style={{
+													color: `rgba(0, 0, 0, ${colorDateEnd})`,
+												}}
 											/>
 										</label>
 									</div>
@@ -302,7 +326,10 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										<Checkbox>Включать анонсы и календари</Checkbox>
 										<Checkbox>Включать сводки новостей</Checkbox>
 									</div>
-									<button>Поиск</button>
+									<Button styleForButton='button-search'>Поиск</Button>
+									<p className={styles['form__help']}>
+										* Обязательные к заполнению поля
+									</p>
 								</div>
 							</form>
 						</div>

@@ -26,3 +26,14 @@
 	border-radius: 5px;
 	margin-top: 10px;
 }
+
+.button-search {
+	width: 305px;
+	height: 60px;
+	color: $colorOne;
+	background-color: $colorSix;
+	opacity: 0.5;
+	border-radius: 5px;
+	font-size: 1.2em;
+	align-self: flex-end;
+}

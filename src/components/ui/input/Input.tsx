@@ -10,7 +10,7 @@ const Input: FC<PropsWithChildren<IInputProps>> = ({
 	placeholder,
 }) => {
 	return (
-		<>
+		<div className={styles.wrapper_input}>
 			<label htmlFor='1' className={styles.label}>
 				{children}
 			</label>
@@ -20,7 +20,7 @@ const Input: FC<PropsWithChildren<IInputProps>> = ({
 				type='text'
 				placeholder={placeholder}
 			/>
-		</>
+		</div>
 	);
 };
 

@@ -689,16 +689,34 @@
 
 .search {
 	display: flex;
+	gap: 80px;
+
+	@media (max-width: 1500px) {
+		gap: 20px;
+		flex-direction: column;
+		align-items: center;
+	}
 
 	> .search__block-content {
 		> .search__title {
 			font-size: 2.2em;
 			font-weight: 900;
 			margin-bottom: 25px;
+
+			@media (max-width: 767.98px) {
+				font-size: 2em;
+				max-width: 278px;
+			}
 		}
+
 		> .search__paragraph {
 			font-size: 1.1em;
 			margin-bottom: 45px;
+
+			@media (max-width: 767.98px) {
+				font-size: 1.3em;
+				max-width: 278px;
+			}
 		}
 
 		> .form {
@@ -710,15 +728,38 @@
 			width: 872px;
 			margin-bottom: 65px;
 
+			@media (max-width: 1200px) {
+				max-width: 772px;
+				padding: 10px 30px 20px 30px;
+			}
+
+			@media (max-width: 991.98px) {
+				max-width: 620px;
+			}
+
+			@media (max-width: 767.98px) {
+				max-width: 375px;
+				padding: 30px 14px 30px 14px;
+				margin-bottom: 0px;
+			}
+
 			> .form__block-input {
 				display: flex;
 				flex-direction: column;
 				gap: 30px;
 
+				@media (max-width: 767.98px) {
+					width: 100%;
+				}
+
 				> .form__block-select {
 					display: flex;
 					flex-direction: column;
 					gap: 20px;
+
+					> .form__label-select {
+						font-size: 1.3em;
+					}
 
 					> select {
 						width: 242px;
@@ -726,6 +767,20 @@
 						border-radius: 5px;
 						border: 1px solid $no-active-color;
 						outline: none;
+						padding: 13px 20px;
+						appearance: none;
+						background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat
+							right 15px top 10px;
+						background-size: 25px 25px;
+
+						@media (max-width: 991.98px) {
+							width: 180px;
+						}
+
+						@media (max-width: 767.98px) {
+							font-size: 1em;
+							width: 100%;
+						}
 					}
 				}
 
@@ -733,14 +788,111 @@
 					display: flex;
 					gap: 20px;
 
-					.start_data {
-						width: 242px;
+					@media (max-width: 991.98px) {
+						flex-direction: column;
+					}
+
+					> label {
+						width: 176px;
+
+						@media (max-width: 991.98px) {
+							max-width: 146px;
+						}
+
+						@media (max-width: 767.98px) {
+							font-size: 1.3em;
+						}
+
+						.start_data_noBefore {
+							margin-top: 20px;
+							width: 176px;
+							height: 43px;
+							padding: 13px 12px 13px 44px;
+							outline: none;
+							border: 1px solid $no-active-color;
+							border-radius: 5px;
+							position: relative;
+							color: rgba($color: #000000, $alpha: 0);
+
+							@media (max-width: 767.98px) {
+								width: 348px;
+							}
+
+							&::-webkit-clear-button,
+							&::-webkit-inner-spin-button {
+								display: none;
+							}
+
+							&::-webkit-calendar-picker-indicator {
+								margin-top: 10px;
+								background: url('/images/icon/arrows/arrow_bottom.svg')
+									no-repeat;
+								background-size: contain;
+								width: 20px;
+								height: 20px;
+								opacity: 1; /* Если требуется видимость */
+							}
+						}
+
+						.start_data {
+							margin-top: 20px;
+							width: 176px;
+							height: 43px;
+							padding: 13px 12px 13px 44px;
+							outline: none;
+							border: 1px solid $no-active-color;
+							border-radius: 5px;
+							position: relative;
+							color: rgba($color: #000000, $alpha: 0);
+
+							@media (max-width: 767.98px) {
+								width: 348px;
+							}
+
+							&::-webkit-clear-button,
+							&::-webkit-inner-spin-button {
+								display: none;
+							}
+
+							&::-webkit-calendar-picker-indicator {
+								margin-top: 10px;
+								background: url('/images/icon/arrows/arrow_bottom.svg')
+									no-repeat;
+								background-size: contain;
+								width: 20px;
+								height: 20px;
+								opacity: 1; /* Если требуется видимость */
+							}
+
+							&::before {
+								content: 'Дата начала'; /* Текст placeholder */
+								position: absolute; /* Позиционирование псевдоэлемента */
+								top: 50%; /* Положение сверху */
+								left: 38px; /* Положение слева */
+								transform: translateY(-50%); /* Выравнивание по вертикали */
+								pointer-events: none; /* Запрет взаимодействия с псевдоэлементом */
+								color: #aaa; /* Цвет текста placeholder */
+							}
+						}
+					}
+
+					.end_data_noBefore {
+						margin-top: 42px;
+						width: 176px;
 						height: 43px;
 						padding: 13px 12px 13px 44px;
 						outline: none;
 						border: 1px solid $no-active-color;
 						border-radius: 5px;
 						position: relative;
+
+						@media (max-width: 991.98px) {
+							margin-top: 10px;
+						}
+
+						@media (max-width: 767.98px) {
+							width: 348px;
+						}
 
 						&::-webkit-clear-button,
 						&::-webkit-inner-spin-button {
@@ -755,26 +907,25 @@
 							height: 20px;
 							opacity: 1; /* Если требуется видимость */
 						}
-
-						&::before {
-							content: 'Дата начала'; /* Текст placeholder */
-							position: absolute; /* Позиционирование псевдоэлемента */
-							top: 50%; /* Положение сверху */
-							left: 38px; /* Положение слева */
-							transform: translateY(-50%); /* Выравнивание по вертикали */
-							pointer-events: none; /* Запрет взаимодействия с псевдоэлементом */
-							color: #aaa; /* Цвет текста placeholder */
-						}
 					}
 
 					.end_data {
-						width: 242px;
+						margin-top: 42px;
+						width: 176px;
 						height: 43px;
 						padding: 13px 12px 13px 44px;
 						outline: none;
 						border: 1px solid $no-active-color;
 						border-radius: 5px;
 						position: relative;
+
+						@media (max-width: 991.98px) {
+							margin-top: 10px;
+						}
+
+						@media (max-width: 767.98px) {
+							width: 348px;
+						}
 
 						&::-webkit-clear-button,
 						&::-webkit-inner-spin-button {
@@ -803,27 +954,96 @@
 				}
 			}
 			> .form__block-checkbox {
+				display: flex;
+				flex-direction: column;
+				padding-top: 15px;
+
+				@media (max-width: 767.98px) {
+					display: none;
+				}
+
 				> div {
 					display: flex;
 					flex-direction: column;
 					gap: 15px;
-					margin-bottom: 145px;
+					margin-bottom: 130px;
+
+					@media (max-width: 1200px) {
+						margin-bottom: 85px;
+					}
 				}
 
-				> button {
+				> .form__help {
+					margin-top: 10px;
+					font-size: 0.8em;
+					color: $no-active-color;
+					align-self: center;
+					padding-left: 25px;
 				}
 			}
 		}
 	}
 
 	> .search__block-images {
+		align-self: flex-end;
+		position: relative;
+
+		@media (max-width: 1500px) {
+			align-self: center;
+			display: flex;
+			gap: 50px;
+		}
+
+		@media (max-width: 767.98px) {
+			margin-bottom: 25px;
+		}
+
 		> .images-block__document {
+			position: absolute;
+			top: -265px;
+			left: -70px;
+
+			@media (max-width: 1500px) {
+				position: static;
+			}
+
+			@media (max-width: 1200px) {
+				width: 78px;
+			}
+
+			@media (max-width: 767.98px) {
+				position: absolute;
+				top: -797px;
+				left: 280px;
+			}
 		}
 
 		> .images-block__folders {
+			position: absolute;
+			top: -238px;
+			left: 190px;
+
+			@media (max-width: 1500px) {
+				position: static;
+			}
+
+			@media (max-width: 1200px) {
+				width: 115px;
+			}
+
+			@media (max-width: 767.98px) {
+				display: none;
+			}
 		}
 
 		> .images-block__people {
+			@media (max-width: 1200px) {
+				width: 342px;
+			}
+
+			@media (max-width: 767.98px) {
+				width: 379px;
+			}
 		}
 	}
 }
