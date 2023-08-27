@@ -1,0 +1,77 @@
+@import '../../../assets/styles/variables';
+
+.wrapper {
+	background-color: $colorThree;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	@media (max-width: 767.98px) {
+		padding: 0px 20px;
+		// max-width: 460px;
+	}
+
+	@media (max-width: 479.98px) {
+		padding: 0px 15px;
+		// max-width: 300px;
+	}
+
+	> div {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 35px;
+		width: 100%;
+		> .logo {
+			width: 111px;
+			height: 111px;
+		}
+
+		> button {
+			width: 24px;
+			height: 24px;
+			background-color: rgba($color: #000000, $alpha: 0);
+
+			> .exit {
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+			}
+		}
+	}
+
+	> nav {
+		margin-bottom: 75px;
+		> .menu {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 25px;
+			a {
+				font-size: 1.2em;
+				color: $colorOne;
+			}
+		}
+	}
+}
+
+.noneButton {
+	background-color: rgba($color: $colorOne, $alpha: 0);
+	cursor: pointer;
+	color: rgba(255, 255, 255, 1);
+	opacity: 0.4;
+	font-size: 1.2em;
+	margin-bottom: 20px;
+}
+
+.mobile_burger {
+	background-color: $colorFive;
+	color: $colorTwo;
+	width: 295px;
+	height: 51px;
+	border-radius: 5px;
+	font-size: 1.4em;
+	cursor: pointer;
+}

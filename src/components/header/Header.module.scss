@@ -8,21 +8,59 @@
 	align-items: center;
 	padding: 0px 60px;
 
+	@media (max-width: 1500px) {
+		padding: 0px 40px;
+	}
+
+	@media (max-width: 991.98px) {
+		padding: 0px 30px;
+	}
+
+	@media (max-width: 767.98px) {
+		padding: 0px 20px;
+	}
+
+	@media (max-width: 479.98px) {
+		padding: 0px 15px;
+	}
+
+	> img {
+		width: 141px;
+		height: 141px;
+
+		@media (max-width: 991.98px) {
+			width: 111px;
+			height: 111px;
+		}
+	}
+
 	> nav {
 		> .menu {
 			display: flex;
 			gap: 50px;
+
+			@media (max-width: 991.98px) {
+				gap: 30px;
+			}
 
 			a {
 				font-size: $fz-mini;
 				color: $colorTwo;
 			}
 		}
+
+		@media (max-width: 767.98px) {
+			display: none;
+		}
 	}
 
 	> .header__block-auth {
 		display: flex;
 		gap: 18px;
+
+		@media (max-width: 767.98px) {
+			display: none;
+		}
 
 		> .noneButton {
 			background-color: rgba($color: $colorOne, $alpha: 0);
@@ -36,4 +74,46 @@
 			background-color: $colorThree;
 		}
 	}
+
+	> .burger_menu {
+		display: none;
+		width: 30px;
+		height: 25px;
+		cursor: pointer;
+
+		@media (max-width: 767.98px) {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			gap: 5px;
+		}
+
+		&::before {
+			content: '';
+			height: 5px;
+			background-color: $colorThree;
+		}
+
+		&::after {
+			content: '';
+			height: 5px;
+			background-color: $colorThree;
+		}
+
+		> span {
+			height: 5px;
+			width: 100%;
+			background-color: $colorThree;
+			position: relative;
+		}
+	}
+}
+
+.button_header {
+	width: 65px;
+	height: 26px;
+	border-radius: 5px;
+	background-color: $colorFive;
+	cursor: pointer;
+	opacity: 1; // для того чтобы кнопка в хедере не становилась прозрачной т.к будет перекрывать вышестоящие стили
 }

@@ -2,13 +2,16 @@ import React, { FC } from 'react';
 import styles from './Content.module.scss';
 import Section from './section/Section';
 
-const Content: FC = () => {
+interface IContentProps {
+	arrSectionProps: string[];
+}
+
+const Content: FC<IContentProps> = ({ arrSectionProps }) => {
 	return (
 		<main className={styles.wrapper}>
-			<Section section={'home-one'} />
-			<Section section={'home-two'} />
-			<Section section={'home-three'} />
-			<Section />
+			{arrSectionProps.map(section => {
+				return <Section key={section} section={section} />;
+			})}
 		</main>
 	);
 };

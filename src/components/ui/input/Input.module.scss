@@ -1,0 +1,19 @@
+@import '../../../assets/styles/variables';
+
+.label {
+	margin-bottom: 20px;
+}
+
+.input {
+	width: 242px;
+	height: 43px;
+	padding: 13px 17px;
+	outline: none;
+	border: 1px solid $no-active-color;
+	border-radius: 5px;
+
+	&::placeholder {
+		color: $no-active-color;
+		font-size: 0.8em;
+	}
+}
