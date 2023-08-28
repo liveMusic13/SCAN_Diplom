@@ -19,7 +19,7 @@ const Button: FC<PropsWithChildren<IPropsStyle>> = ({
 
 	return (
 		<button
-			disabled={isFormFalid}
+			// disabled={isFormFalid}
 			onClick={
 				() => console.log('ok') // TODO: MAKE IS REQUEST TO SERVER
 			}

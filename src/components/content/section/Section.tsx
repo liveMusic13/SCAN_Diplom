@@ -1,5 +1,7 @@
 import cn from 'clsx';
 import React, { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '../../../hooks/useAuth';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
 import Checkbox from '../../ui/checkbox/Checkbox';
@@ -11,14 +13,30 @@ interface ISectionProps {
 	section?: string;
 }
 
+interface IFormInput {
+	login: string;
+	password: string;
+}
+
 const Section: FC<ISectionProps> = ({ section }) => {
-	const [formValue, setFormValue] = useState({
-		login: '',
-		password: '',
-	});
+	const { isAuth } = useAuth();
 
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
+
+	// const [arrResult, setArrResult] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<IFormInput>({
+		mode: 'onChange',
+	});
+
+	const onSubmit: SubmitHandler<IFormInput> = data => {
+		console.log(data);
+	};
 
 	return (
 		<>
@@ -35,7 +53,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								Комплексный анализ публикаций, получение данных в формате PDF на
 								электронную почту.
 							</p>
-							{/* <button>Запросить данные</button> */}
+							{isAuth && <button>Запросить данные</button>}
 						</div>
 						<img
 							className={styles['home-one__image']}
@@ -147,6 +165,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 							<h2>
 								Для оформления подписки на тариф, необходимо авторизоваться.
 							</h2>
+							{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
 							<div className={styles['auth__block-auth_mobile']}>
 								<img
 									className={styles.auth__lock}
@@ -164,30 +183,31 @@ const Section: FC<ISectionProps> = ({ section }) => {
 									<input
 										type='text'
 										id='login'
-										value={formValue.login}
-										onChange={event =>
-											setFormValue(prevFormValue => ({
-												...prevFormValue,
-												login: event.target.value,
-											}))
-										}
+										// value={formValue.login}
+										// onChange={event =>
+										// 	setFormValue(prevFormValue => ({
+										// 		...prevFormValue,
+										// 		login: event.target.value,
+										// 	}))
+										// }
 									/>
 									<label htmlFor='password'>Пароль:</label>
 									<input
 										type='password'
 										id='password'
-										value={formValue.password}
-										onChange={event =>
-											setFormValue(prevFormValue => ({
-												...prevFormValue,
-												password: event.target.value,
-											}))
-										}
+										// value={formValue.password}
+										// onChange={event =>
+										// 	setFormValue(prevFormValue => ({
+										// 		...prevFormValue,
+										// 		password: event.target.value,
+										// 	}))
+										// }
 									/>
 
-									<Button formValue={formValue} styleForButton={'button-auth'}>
+									{/* <Button formValue={formValue} styleForButton={'button-auth'}>
 										Войти
-									</Button>
+									</Button> */}
+									<Button styleForButton={'button-auth'}>Войти</Button>
 								</form>
 								<a href='#'>Восстановить пароль</a>
 								<p className={styles['auth__title-company']}>Войти через:</p>
@@ -202,6 +222,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								alt='img'
 							/>
 						</div>
+						{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
 						<div className={styles['auth__block-auth']}>
 							<img
 								className={styles.auth__lock}
@@ -214,35 +235,32 @@ const Section: FC<ISectionProps> = ({ section }) => {
 									Зарегистрироваться
 								</p>
 							</div>
-							<form>
+							<form onSubmit={handleSubmit(onSubmit)}>
 								<label htmlFor='login'>Логин или номер телефона:</label>
 								<input
 									type='text'
 									id='login'
-									value={formValue.login}
-									onChange={event =>
-										setFormValue(prevFormValue => ({
-											...prevFormValue,
-											login: event.target.value,
-										}))
-									}
+									{...register('login', {
+										required: 'Login is required',
+									})}
 								/>
+
+								{errors.login && (
+									<div style={{ color: 'red' }}>{errors.login.message}</div>
+								)}
 								<label htmlFor='password'>Пароль:</label>
 								<input
 									type='password'
 									id='password'
-									value={formValue.password}
-									onChange={event =>
-										setFormValue(prevFormValue => ({
-											...prevFormValue,
-											password: event.target.value,
-										}))
-									}
+									{...register('password', {
+										required: 'Password is required',
+									})}
 								/>
+								{errors.password && (
+									<div style={{ color: 'red' }}>{errors.password.message}</div>
+								)}
 
-								<Button formValue={formValue} styleForButton={'button-auth'}>
-									Войти
-								</Button>
+								<Button styleForButton={'button-auth'}>Войти</Button>
 							</form>
 							<a href='#'>Восстановить пароль</a>
 							<p className={styles['auth__title-company']}>Войти через:</p>
@@ -354,6 +372,168 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								src='/images/background-images/search/people.png'
 								alt='img'
 							/>
+						</div>
+					</section>
+				)
+			}
+			{
+				// HELP: RESULT-ONE
+				section === 'result-one' && (
+					<section className={cn(styles[section])}>
+						<div className={styles['result__block-content']}>
+							<h2 className={styles['result-one__title']}>
+								Ищем. Скоро будут результаты
+							</h2>
+							<p className={styles['result-one__paragraph']}>
+								Поиск может занять некоторое время, просим сохранять терпение.
+							</p>
+						</div>
+						<img
+							src='/images/background-images/result/woman-target.png'
+							alt='img'
+						/>
+					</section>
+				)
+			}
+			{
+				// HELP: RESULT-TWO
+				section === 'result-two' && (
+					<section className={cn(styles[section])}>
+						<h2 className={styles['result-two__title']}>Общая сводка</h2>
+						<p className={styles['result-two__paragraph']}>
+							Найдено 4 221 вариантов
+						</p>
+						<div className={styles['result-two__wrapper-result']}>
+							<button>
+								<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
+							</button>
+							<div
+								className={cn(
+									styles['result-two__block-result'],
+									styles['result-block']
+								)}
+							>
+								<div className={styles['result-block__name']}>
+									<p>Период</p>
+									<p>Всего</p>
+									<p>Риски</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+								<div className={styles['result-block__result']}>
+									<p>10.09.2021</p>
+									<p>5</p>
+									<p>0</p>
+								</div>
+							</div>
+							<button>
+								<img src='/images/icon/arrows/arrow_right.svg' alt='img' />
+							</button>
+						</div>
+					</section>
+				)
+			}
+			{
+				// HELP: RESULT-THREE
+				section === 'result-three' && (
+					<section className={cn(styles[section])}>
+						<h2 className={styles['result-three__title']}>Список документов</h2>
+						<div className={styles['result-three__wrapper-document']}>
+							<div className={styles['result-three__block-document']}>
+								<div className={styles['result-three__block-date']}>
+									<p>13.09.2021</p>
+									<p>Комсомольская правда KP.RU</p>
+								</div>
+								<h2>
+									Скиллфэктори - лучшая онлайн-школа для будущих айтишников
+								</h2>
+								<p>Технические новости</p>
+								<div className={styles['result-three__block-info']}>
+									<img src='/images/test.png' alt='test' />
+									<p>
+										SkillFactory — школа для всех, кто хочет изменить свою
+										карьеру и жизнь. С 2016 года обучение прошли 20 000+ человек
+										из 40 стран с 4 континентов, самому взрослому студенту
+										сейчас 86 лет. Выпускники работают в Сбере, Cisco, Bayer,
+										Nvidia, МТС, Ростелекоме, Mail.ru, Яндексе, Ozon и других
+										топовых компаниях. Принципы SkillFactory: акцент на
+										практике, забота о студентах и ориентир на трудоустройство.
+										80% обучения — выполнение упражнений и реальных проектов.
+										Каждого студента поддерживают менторы, 2 саппорт-линии и
+										комьюнити курса. А карьерный центр помогает составить
+										резюме, подготовиться к собеседованиям и познакомиться с
+										IT-рекрутерами.
+									</p>
+								</div>
+								<div className={styles['result-three__title']}>
+									<a href='#'>Читать в источнике</a>
+									<p>2 543 слова</p>
+								</div>
+							</div>
+							<div className={styles['result-three__block-document']}>
+								<div className={styles['result-three__block-date']}>
+									<p>13.09.2021</p>
+									<p>Комсомольская правда KP.RU</p>
+								</div>
+								<h2>
+									Скиллфэктори - лучшая онлайн-школа для будущих айтишников
+								</h2>
+								<p>Технические новости</p>
+								<div className={styles['result-three__block-info']}>
+									<img src='/images/test.png' alt='test' />
+									<p>
+										SkillFactory — школа для всех, кто хочет изменить свою
+										карьеру и жизнь. С 2016 года обучение прошли 20 000+ человек
+										из 40 стран с 4 континентов, самому взрослому студенту
+										сейчас 86 лет. Выпускники работают в Сбере, Cisco, Bayer,
+										Nvidia, МТС, Ростелекоме, Mail.ru, Яндексе, Ozon и других
+										топовых компаниях. Принципы SkillFactory: акцент на
+										практике, забота о студентах и ориентир на трудоустройство.
+										80% обучения — выполнение упражнений и реальных проектов.
+										Каждого студента поддерживают менторы, 2 саппорт-линии и
+										комьюнити курса. А карьерный центр помогает составить
+										резюме, подготовиться к собеседованиям и познакомиться с
+										IT-рекрутерами.
+									</p>
+								</div>
+								<div className={styles['result-three__title']}>
+									<a href='#'>Читать в источнике</a>
+									<p>2 543 слова</p>
+								</div>
+							</div>
 						</div>
 					</section>
 				)
