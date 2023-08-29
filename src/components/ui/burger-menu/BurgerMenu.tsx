@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useBurger } from '../../BurgerContext';
+import { useBurger } from '../../../providers/BurgerContext';
 import styles from './BurgerMenu.module.scss';
 
 const BurgerMenu: FC = () => {

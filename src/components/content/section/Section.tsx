@@ -1,7 +1,7 @@
 import cn from 'clsx';
 import React, { FC, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../hooks/useAuth';
+import { useAuthPage } from '../../../hooks/useAuthPage';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
 import Checkbox from '../../ui/checkbox/Checkbox';
@@ -13,30 +13,15 @@ interface ISectionProps {
 	section?: string;
 }
 
-interface IFormInput {
-	login: string;
-	password: string;
-}
-
 const Section: FC<ISectionProps> = ({ section }) => {
 	const { isAuth } = useAuth();
+
+	const { onSubmit, register, handleSubmit, errors } = useAuthPage();
 
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
 	// const [arrResult, setArrResult] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<IFormInput>({
-		mode: 'onChange',
-	});
-
-	const onSubmit: SubmitHandler<IFormInput> = data => {
-		console.log(data);
-	};
 
 	return (
 		<>
@@ -241,23 +226,27 @@ const Section: FC<ISectionProps> = ({ section }) => {
 									type='text'
 									id='login'
 									{...register('login', {
-										required: 'Login is required',
+										required: 'Введите корректные данные',
 									})}
 								/>
 
 								{errors.login && (
-									<div style={{ color: 'red' }}>{errors.login.message}</div>
+									<div style={{ color: 'red', fontSize: '10px' }}>
+										{errors.login.message}
+									</div>
 								)}
 								<label htmlFor='password'>Пароль:</label>
 								<input
 									type='password'
 									id='password'
 									{...register('password', {
-										required: 'Password is required',
+										required: 'Неправильный пароль',
 									})}
 								/>
 								{errors.password && (
-									<div style={{ color: 'red' }}>{errors.password.message}</div>
+									<div style={{ color: 'red', fontSize: '10px' }}>
+										{errors.password.message}
+									</div>
 								)}
 
 								<Button styleForButton={'button-auth'}>Войти</Button>
