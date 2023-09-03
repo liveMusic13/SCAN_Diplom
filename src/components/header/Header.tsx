@@ -1,7 +1,5 @@
-import Cookies from 'js-cookie';
 import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { TOKEN } from '../../app.constants';
 import { useAuth } from '../../hooks/useAuth';
 import { useBurger } from '../../providers/BurgerContext';
 import styles from './Header.module.scss';
@@ -10,12 +8,23 @@ const Header: FC = () => {
 	const navigate = useNavigate();
 	const { setIsViewBurger } = useBurger();
 	const { isAuth, setIsAuth } = useAuth();
+	// const {
+	// 	companyLimit,
+	// 	setCompanyLimit,
+	// 	usedCompanyCount,
+	// 	setUsedCompanyCount,
+	// } = useProfileInfo();
 
-	const logoutHandler = () => {
-		Cookies.remove(TOKEN);
-		setIsAuth(false);
-		navigate('/');
-	};
+	// const logoutHandler = () => {
+	// 	Cookies.remove(TOKEN);
+	// 	setIsAuth(false);
+	// 	navigate('/');
+	// };
+
+	// useEffect(() => {
+	// 	if (isAuth) {
+	// 	}
+	// }, [companyLimit, usedCompanyCount]);
 
 	return (
 		<header className={styles.header}>
@@ -36,7 +45,7 @@ const Header: FC = () => {
 					</li>
 				</ul>
 			</nav>
-			{isAuth ? (
+			{isAuth ? ( //TODO: MAKE IS INFO USER
 				<>
 					<div className={styles.block_company}>
 						<div className={styles.block_name}>
@@ -51,7 +60,8 @@ const Header: FC = () => {
 					<div className={styles.block_avatar}>
 						<div>
 							<p>Алексей А.</p>
-							<button onClick={() => logoutHandler()}>Выйти</button>
+							{/* <button onClick={() => logoutHandler()}>Выйти</button> */}
+							<button>Выйти</button>
 						</div>
 						<img src='/images/test_avatar.png' alt='avatar' />
 					</div>

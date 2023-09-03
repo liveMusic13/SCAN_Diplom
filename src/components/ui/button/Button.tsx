@@ -27,7 +27,8 @@ const Button: FC<PropsWithChildren<IPropsStyle>> = ({
 		<button
 			// disabled={isFormFalid}
 			onClick={
-				() => (isAuth ? navigate('/') : '') // TODO: MAKE IS REQUEST TO SERVER
+				// () => (isAuth ? navigate('/') : '') //потом включу проверку для того чтобы при регистрации отправляло на главную  // TODO: MAKE IS REQUEST TO SERVER
+				() => console.log('yes')
 			}
 			className={cn(
 				styles[styleForButton],

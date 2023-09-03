@@ -2,7 +2,11 @@ import cn from 'clsx';
 import React, { FC, PropsWithChildren, useState } from 'react';
 import styles from './Checkbox.module.scss';
 
-const Checkbox: FC<PropsWithChildren> = ({ children }) => {
+interface ICheckboxProps {
+	id: string;
+}
+
+const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({ children, id }) => {
 	const [checkOn, setCheckOn] = useState(false);
 
 	const handleChange = () => {
@@ -23,15 +27,16 @@ const Checkbox: FC<PropsWithChildren> = ({ children }) => {
 			>
 				{checkOn && <img src='/images/icon/check.svg' alt='check' />}
 				<input
-					id='2'
+					id={id}
 					type='checkbox'
 					checked={checkOn}
 					onChange={handleChange}
+					name='checkbox'
 				/>
 			</button>
 
 			<label
-				htmlFor='2'
+				htmlFor={id}
 				className={cn({
 					[styles.label]: !checkOn,
 					[styles.label_active]: checkOn,

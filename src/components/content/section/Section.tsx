@@ -1,11 +1,10 @@
 import cn from 'clsx';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
 import { useAuthPage } from '../../../hooks/useAuthPage';
+import FormSeacrhTest from '../../form-search/FormSeacrhTest';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
-import Checkbox from '../../ui/checkbox/Checkbox';
-import Input from '../../ui/input/Input';
 import styles from './Section.module.scss';
 import tariffData from './data.tariff';
 
@@ -18,8 +17,8 @@ const Section: FC<ISectionProps> = ({ section }) => {
 
 	const { onSubmit, register, handleSubmit, errors } = useAuthPage();
 
-	const [colorDateStart, setColorDateStart] = useState(0);
-	const [colorDateEnd, setColorDateEnd] = useState(0);
+	// const [colorDateStart, setColorDateStart] = useState(0);
+	// const [colorDateEnd, setColorDateEnd] = useState(0);
 
 	// const [arrResult, setArrResult] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
@@ -273,9 +272,14 @@ const Section: FC<ISectionProps> = ({ section }) => {
 							<p className={styles['search__paragraph']}>
 								Задайте параметры поиска. Чем больше заполните, тем точнее поиск
 							</p>
-							<form className={cn(styles['search__form'], styles.form)}>
+							{/* <form
+								className={cn(styles['search__form'], styles.form)}
+								onSubmit={handleSubmit(onSubmitSearch)}
+							>
 								<div className={styles['form__block-input']}>
-									<Input placeholder='10 цифр'>ИНН компании *</Input>
+									<Input id={'INN'} placeholder='10 цифр'>
+										ИНН компании *
+									</Input>
 									<div className={styles['form__block-select']}>
 										<label
 											className={styles['form__label-select']}
@@ -283,13 +287,13 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										>
 											Тональность
 										</label>
-										<select defaultValue='Любая' id='select'>
+										<select defaultValue='Любая' id='select' >
 											<option value='Позитивная'>Позитивная</option>
 											<option value='Негативная'>Негативная</option>
 											<option value='Любая'>Любая</option>
 										</select>
 									</div>
-									<Input placeholder='от 1 до 1000'>
+									<Input id={'docs'} placeholder='от 1 до 1000'>
 										Количество документов в выдаче *
 									</Input>
 									<div className={styles['form__block-data-input']}>
@@ -338,7 +342,9 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										* Обязательные к заполнению поля
 									</p>
 								</div>
-							</form>
+							</form> */}
+							{/* <FormSeacrh /> */}
+							<FormSeacrhTest />
 						</div>
 						<div
 							className={cn(
