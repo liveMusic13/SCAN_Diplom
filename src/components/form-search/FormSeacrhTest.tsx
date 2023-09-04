@@ -104,11 +104,7 @@ const FormSeacrhTest: FC = () => {
 				{/* <Input id={'docs'} placeholder='от 1 до 1000'>
 					Количество документов в выдаче *
 				</Input> */}
-				<input
-					{...register('lastName')}
-					type='text'
-					placeholder='от 1 до 1000'
-				/>
+				<input {...register('limit')} type='text' placeholder='от 1 до 1000' />
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *
@@ -122,7 +118,7 @@ const FormSeacrhTest: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
-							{...register(`startDate`, {
+							{...register(`issueDateInterval.startDate`, {
 								required: 'Введите корректные данные',
 							})}
 						/>
@@ -139,7 +135,7 @@ const FormSeacrhTest: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
-							{...register(`endDate`, {
+							{...register(`issueDateInterval`, {
 								required: 'Введите корректные данные',
 							})}
 						/>
