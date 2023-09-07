@@ -1,5 +1,8 @@
-import React, { FC } from 'react';
+import Cookies from 'js-cookie';
+import React, { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { $axios } from '../../api';
+import { TOKEN } from '../../app.constants';
 import { useAuth } from '../../hooks/useAuth';
 import { useBurger } from '../../providers/BurgerContext';
 import styles from './Header.module.scss';
@@ -8,23 +11,31 @@ const Header: FC = () => {
 	const navigate = useNavigate();
 	const { setIsViewBurger } = useBurger();
 	const { isAuth, setIsAuth } = useAuth();
-	// const {
-	// 	companyLimit,
-	// 	setCompanyLimit,
-	// 	usedCompanyCount,
-	// 	setUsedCompanyCount,
-	// } = useProfileInfo();
 
-	// const logoutHandler = () => {
-	// 	Cookies.remove(TOKEN);
-	// 	setIsAuth(false);
-	// 	navigate('/');
-	// };
+	const logoutHandler = () => {
+		Cookies.remove(TOKEN);
+		setIsAuth(false);
+		navigate('/');
+	};
 
-	// useEffect(() => {
-	// 	if (isAuth) {
-	// 	}
-	// }, [companyLimit, usedCompanyCount]);
+	const [companyLimit, setCompanyLimit] = useState(null);
+	const [usedCompanyCount, setUsedCompanyCount] = useState(null);
+
+	if (isAuth) {
+		const responseFunc = async () => {
+			try {
+				const response = await $axios.get('/v1/account/info');
+
+				setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
+				setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+				console.log(companyLimit);
+				console.log(usedCompanyCount);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		responseFunc();
+	}
 
 	return (
 		<header className={styles.header}>
@@ -45,23 +56,22 @@ const Header: FC = () => {
 					</li>
 				</ul>
 			</nav>
-			{isAuth ? ( //TODO: MAKE IS INFO USER
+			{isAuth && window.innerWidth >= 767.98 ? ( //TODO: MAKE IS INFO USER
 				<>
 					<div className={styles.block_company}>
-						<div className={styles.block_name}>
-							<p>Использовано компаний</p>
-							<p>Лимит по компаниям</p>
+						<div className={styles.block_usedCompany}>
+							<p className={styles.used_paragraph}>Использовано компаний</p>
+							<p className={styles.used_company}>{usedCompanyCount}</p>
 						</div>
-						<div className={styles.block_number}>
-							<p className={styles.first_num}>34</p>
-							<p className={styles.limit_company}>100</p>
+						<div className={styles.block_companyLimit}>
+							<p className={styles.limit_paragraph}>Лимит по компаниям</p>
+							<p className={styles.limit_company}>{companyLimit}</p>
 						</div>
 					</div>
 					<div className={styles.block_avatar}>
 						<div>
 							<p>Алексей А.</p>
-							{/* <button onClick={() => logoutHandler()}>Выйти</button> */}
-							<button>Выйти</button>
+							<button onClick={() => logoutHandler()}>Выйти</button>
 						</div>
 						<img src='/images/test_avatar.png' alt='avatar' />
 					</div>

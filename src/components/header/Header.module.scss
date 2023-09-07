@@ -62,39 +62,65 @@
 		border-radius: 5px;
 		padding: 14px 12px 14px 10px;
 		display: flex;
+		flex-direction: column;
 		gap: 6px;
 		position: absolute;
 		top: 25%;
 		right: 20%;
 
-		> .block_name {
-			> p {
+		@media (max-width: 1200px) {
+			right: 16%;
+		}
+
+		@media (max-width: 991.98px) {
+			max-width: 132px;
+			right: 17.9%;
+			height: 75px;
+			padding-top: 5px;
+		}
+
+		> .block_usedCompany {
+			display: flex;
+			justify-content: space-between;
+
+			@media (max-width: 991.98px) {
+				flex-direction: column;
+			}
+
+			> .used_paragraph {
 				font-size: 0.55em;
-				margin-bottom: 7px;
-				color: $colorTwo;
 				opacity: 0.4;
+			}
+
+			.used_company {
+				font-size: 0.77em;
+				font-weight: 700;
+				color: $colorTwo;
 			}
 		}
 
-		> .block_number {
-			align-self: end;
+		> .block_companyLimit {
+			display: flex;
+			justify-content: space-between;
 
-			> p {
-				font-size: 0.77em;
-				font-weight: 700;
+			@media (max-width: 991.98px) {
+				flex-direction: column;
 			}
 
-			.first_num {
-				margin-bottom: 4px;
+			> .limit_paragraph {
+				font-size: 0.55em;
+				opacity: 0.4;
 			}
 
 			> .limit_company {
+				font-size: 0.77em;
+				font-weight: 700;
 				color: rgba(138, 197, 64, 1);
 			}
 		}
 	}
 
-	> .block_avatar {
+	.block_avatar {
 		display: flex;
 		gap: 4px;
 

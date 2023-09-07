@@ -1,148 +1,130 @@
 import cn from 'clsx';
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { $axios } from '../../api';
 import styles from './FormSeacrh.module.scss';
 
-const FormSeacrhTest: FC = () => {
+interface IStateResultData {
+	resultData: object;
+	setResultData: Dispatch<SetStateAction<object>>;
+}
+
+const FormSeacrhTest: FC<IStateResultData> = ({
+	resultData,
+	setResultData,
+}) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
-	const [valueInn, setValueInn] = useState(7710137066);
-	const [value, setValue] = useState(5);
-	const [valueStart, setValueStart] = useState('');
-	const [valueEnd, setValueEnd] = useState('');
-	const [valueSelect, setValueSelect] = useState('');
-
-	// const [isChecked, setIsChecked] = useState({
-	// 	one: false,
-	// 	two: false,
-	// 	// three: false,
-	// });
-
-	// const checkedCheckbox = (idChecbox: string) => {
-	// 	const elem = document.getElementById(idChecbox);
-	// 	if (elem.value === 'on') {
-	// 		elem.checked = true;
-	// 	}
-	// };
-
-	// test
-	const onSubmitSearch = data => {
-		setValue(Number(value));
-		setValueInn(Number(valueInn));
-		console.log(typeof valueInn);
-		try {
-			const responce = $axios.post(
-				'/v1/objectsearch/histograms',
-				JSON.stringify({
-					issueDateInterval: {
-						startDate: valueStart,
-						endDate: valueEnd,
-					},
-					searchContext: {
-						targetSearchEntitiesContext: {
-							targetSearchEntities: [
-								{
-									type: 'company',
-									sparkId: null,
-									entityId: null,
-									inn: valueInn,
-									inBusinessNews: null,
-								},
-							],
-							tonality: 'any',
-						},
-					},
-
-					limit: value,
-				})
-			);
-			console.log(responce);
-			console.log('data:', data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	// test
+	const [dataValue, setDataValue] = useState({
+		issueDateInterval: {
+			startDate: '',
+			endDate: '',
+		},
+		attributeFilters: {
+			excludeTechNews: true,
+			excludeAnnouncements: true,
+			excludeDigests: true,
+		},
+		similarMode: 'duplicates',
+		sortType: 'sourceInfluence',
+		sortDirectionType: 'desc',
+		intervalType: 'month',
+		histogramTypes: ['totalDocuments', 'riskFactors'],
+	});
 
 	const {
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors },
 	} = useForm({
-		// defaultValues: {
-		// 	issueDateInterval: {
-		// 		startDate: '',
-		// 		endDate: '',
-		// 	},
-		// 	searchContext: {
-		// 		targetSearchEntitiesContext: {
-		// 			targetSearchEntities: [
-		// 				{
-		// 					type: 'company',
-		// 					sparkId: null,
-		// 					entityId: null,
-		// 					inn: 7710137066,
-		// 					inBusinessNews: null,
-		// 				},
-		// 			],
-		// 			tonality: 'any',
-		// 		},
-		// 	},
-
-		// 	limit: 1000,
-
-		// 	// checkbox: false,
-		// 	// checkbox1: false,
-		// },
 		mode: 'onChange',
 	});
 
-	//
-	// {
-	//   "issueDateInterval": {
-	//     "startDate": "2019-01-01T00:00:00+03:00",
-	//     "endDate": "2022-08-31T23:59:59+03:00"
-	//   },
-	//   "searchContext": {
-	//     "targetSearchEntitiesContext": {
-	//       "targetSearchEntities": [
-	//         {
-	//           "inn": 7710137066,
-	//         }
-	//       ],
-	//       "tonality": "any",
-	//     },
-	//   },
-	//   "limit": 1000,
-	// }
-	//
+	const test = async () => {
+		const searchContext = {
+			targetSearchEntitiesContext: {
+				targetSearchEntities: [
+					{
+						type: 'company',
+						sparkId: null,
+						entityId: null,
+						inn: Number(getValues('inn')),
+						maxFullness: true,
+						inBusinessNews: null,
+					},
+				],
+				onlyMainRole: true,
+				tonality: getValues('tonality'),
+				onlyWithRiskFactors: true,
+			},
+		};
+		const limit = Number(getValues('limit'));
+		const issueDateInterval = {
+			startDate: getValues('startDate'),
+			endDate: getValues('endDate'),
+		};
+
+		const updateDate = {
+			...dataValue,
+			searchContext,
+			limit,
+			issueDateInterval,
+		};
+		setDataValue(updateDate);
+
+		console.log(updateDate);
+
+		try {
+			const response = await $axios.post(
+				'/v1/objectsearch/histograms',
+				updateDate
+			);
+
+			setResultData(response);
+
+			// navigate('/result');
+			// console.log('i am here', resultData);
+			// console.log(resultData.data.data[0]);
+			// console.log('two: ', resultData.data.data[0].data[5]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<form
 			className={cn(styles['search__form'], styles.form)}
-			onSubmit={handleSubmit(onSubmitSearch)}
+			onSubmit={handleSubmit(test)}
 		>
+			{resultData.data ? (
+				resultData.data.data[0].data.map(elem => {
+					return (
+						<div key={Math.random()} className={styles['result-block__result']}>
+							<p>{elem.date}</p>
+							<p>{elem.value}</p>
+							<p>0</p>
+						</div>
+					);
+				})
+			) : (
+				<></>
+			)}
 			<div className={styles['form__block-input']}>
 				<input
-					{...register(
-						'searchContext.targetSearchEntitiesContext.targetSearchEntities[0].inn',
-						{
-							required: 'no',
-							pattern: {
-								value: /^[\d+]{10}$/,
-								message: 'Please',
-							},
-						}
-					)}
+					{...register('inn', {
+						required: 'no',
+						pattern: {
+							value: /^[\d+]{10}$/,
+							message: 'Please',
+						},
+					})}
 					type='text'
 					placeholder='10 цифр'
 					style={{
 						backgroundColor: 'rgba(70, 90, 126, 0)',
 					}}
-					// value={valueInn}
-					// onChange={event => setValueInn(event?.target.value)}
 				/>
 				{/* {errors.inn && (
 					<div style={{ color: 'red', fontSize: '10px' }}>
@@ -156,11 +138,9 @@ const FormSeacrhTest: FC = () => {
 					<select
 						defaultValue='any'
 						id='select'
-						{...register(`searchContext.targetSearchEntitiesContext.tonality`, {
+						{...register(`tonality`, {
 							required: 'Введите корректные данные',
 						})}
-						// value={valueSelect}
-						// onChange={event => setValueSelect(event?.target.value)}
 					>
 						<option value='positive'>Позитивная</option>
 						<option value='negative'>Негативная</option>
@@ -168,13 +148,7 @@ const FormSeacrhTest: FC = () => {
 					</select>
 				</div>
 
-				<input
-					{...register('limit')}
-					type='text'
-					placeholder='от 1 до 1000'
-					// value={value}
-					// onChange={event => setValue(event?.target.value)}
-				/>
+				<input {...register('limit')} type='text' placeholder='от 1 до 1000' />
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *
@@ -188,11 +162,9 @@ const FormSeacrhTest: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
-							{...register(`issueDateInterval.startDate`, {
+							{...register(`startDate`, {
 								required: 'Введите корректные данные',
 							})}
-							value={valueStart}
-							onChange={event => setValueStart(event?.target.value)}
 						/>
 					</label>
 					<label>
@@ -207,11 +179,9 @@ const FormSeacrhTest: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
-							{...register(`issueDateInterval.endDate`, {
+							{...register(`endDate`, {
 								required: 'Введите корректные данные',
 							})}
-							value={valueEnd}
-							onChange={event => setValueEnd(event?.target.value)}
 						/>
 					</label>
 				</div>
@@ -230,94 +200,13 @@ const FormSeacrhTest: FC = () => {
 						// 		checkedCheckbox('1');
 						// 	}
 						// }}
-					/>
-					<input
-						{...register('checkbox1')}
-						id='2'
-						type='checkbox'
-						// onClick={() => {
-						// 	if (isChecked) {
-						// 		setIsChecked({ ...isChecked, one: false });
-						// 	} else {
-						// 		setIsChecked({ ...isChecked, one: true });
-						// 		checkedCheckbox('2');
-						// 	}
-						// }}
-					/> */}
-					{/* <input
-						{...register('checkbox2')}
-						id='3'
-						type='checkbox'
-						onClick={() => {
-							if (isChecked) {
-								setIsChecked({ ...isChecked, one: false });
-							} else {
-								setIsChecked({ ...isChecked, one: true });
-								checkedCheckbox('3');
-							}
-						}}
-						
-					/>
-					<input
-						{...register('checkbox2')}
-						id='4'
-						type='checkbox'
-						onClick={() => {
-							if (isChecked) {
-								setIsChecked({ ...isChecked, one: false });
-							} else {
-								setIsChecked({ ...isChecked, one: true });
-								checkedCheckbox('3');
-							}
-						}}
-						
-					/>
-					<input
-						{...register('checkbox2')}
-						id='5'
-						type='checkbox'
-						onClick={() => {
-							if (isChecked) {
-								setIsChecked({ ...isChecked, one: false });
-							} else {
-								setIsChecked({ ...isChecked, one: true });
-								checkedCheckbox('3');
-							}
-						}}
-						
-					/>
-					<input
-						{...register('checkbox2')}
-						id='6'
-						type='checkbox'
-						onClick={() => {
-							if (isChecked) {
-								setIsChecked({ ...isChecked, one: false });
-							} else {
-								setIsChecked({ ...isChecked, one: true });
-								checkedCheckbox('3');
-							}
-						}}
-						
-					/>
-					<input
-						{...register('checkbox2')}
-						id='7'
-						type='checkbox'
-						onClick={() => {
-							if (isChecked) {
-								setIsChecked({ ...isChecked, one: false });
-							} else {
-								setIsChecked({ ...isChecked, one: true });
-								checkedCheckbox('3');
-							}
-						}}
-						
 					/> */}
 				</div>
 				{/* <Button styleForButton='button-search'>Поиск</Button> */}
 				<button type='submit'>go</button>
-				<p className={styles['form__help']}>* Обязательные к заполнению поля</p>
+				<p onClick={() => navigate('/result')} className={styles['form__help']}>
+					* Обязательные к заполнению поля
+				</p>
 			</div>
 		</form>
 	);
