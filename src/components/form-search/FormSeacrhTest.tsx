@@ -1,6 +1,7 @@
 import cn from 'clsx';
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { $axios } from '../../api';
 import styles from './FormSeacrh.module.scss';
 
@@ -15,6 +16,8 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
+
+	const navigate = useNavigate();
 
 	const [dataValue, setDataValue] = useState({
 		issueDateInterval: {
@@ -84,7 +87,6 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 
 			setResultData(response);
 
-			// navigate('/result');
 			// console.log('i am here', resultData);
 			// console.log(resultData.data.data[0]);
 			// console.log('two: ', resultData.data.data[0].data[5]);
