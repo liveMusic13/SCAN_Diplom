@@ -1,12 +1,20 @@
 import cn from 'clsx';
 import React, { FC, PropsWithChildren, useState } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
 import styles from './Checkbox.module.scss';
 
 interface ICheckboxProps {
 	id: string;
+	register: UseFormRegister<FieldValues>;
 }
 
-const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({ children, id }) => {
+//TODO: MAKE VALUE TO RESPONSE IN FORM
+
+const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({
+	children,
+	id,
+	register,
+}) => {
 	const [checkOn, setCheckOn] = useState(false);
 
 	const handleChange = () => {
@@ -22,6 +30,7 @@ const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({ children, id }) => {
 				})}
 				onClick={e => {
 					e.preventDefault();
+					// handleChange();
 					setCheckOn(!checkOn);
 				}}
 			>
@@ -29,9 +38,9 @@ const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({ children, id }) => {
 				<input
 					id={id}
 					type='checkbox'
+					{...register(`${id}`)}
 					checked={checkOn}
 					onChange={handleChange}
-					name='checkbox'
 				/>
 			</button>
 

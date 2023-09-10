@@ -20,6 +20,18 @@ const FormSeacrh: FC<IStateResultData> = ({
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
+	// const [resultObjectSearch, setResultObjectSearch] = useState(null);
+	let test = {
+		ids: [],
+	};
+	let viewDocuments = {
+		ids: [],
+	};
+
+	// useEffect(() => {
+	// 	console.log(resultObjectSearch);
+	// }, [resultObjectSearch]);
+
 	const [dataValue, setDataValue] = useState({
 		issueDateInterval: {
 			startDate: '',
@@ -45,6 +57,44 @@ const FormSeacrh: FC<IStateResultData> = ({
 	} = useForm({
 		mode: 'onChange',
 	});
+
+	const responseDocuments = async () => {
+		if (test.ids.length >= 10) {
+			viewDocuments.ids = test.ids.slice(0, 10);
+			console.log(viewDocuments);
+			try {
+				const response = await $axios.post('/v1/objectsearch', viewDocuments);
+				console.log(response);
+			} catch (error) {
+				console.log(error);
+			}
+		} else {
+			try {
+				const response = await $axios.post('/v1/objectsearch', test);
+				console.log(response);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
+	const objectSearchForDocuments = async (postObject: object) => {
+		try {
+			const response = await $axios.post('/v1/objectsearch', postObject);
+			console.log(response);
+
+			response.data.items.forEach(elem => {
+				test.ids.push(elem.encodedId);
+			});
+			console.log(test);
+
+			// console.log(response.data.items);
+
+			responseDocuments();
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const onSubmit = async () => {
 		const searchContext = {
@@ -86,15 +136,7 @@ const FormSeacrh: FC<IStateResultData> = ({
 			setResultData(response);
 			setIsViewSearch(false);
 
-			const testing = async () => {
-				try {
-					const response = await $axios.post('/v1/objectsearch', updateDate);
-					console.log(response);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-			testing();
+			await objectSearchForDocuments(updateDate);
 		} catch (error) {
 			console.log(error);
 		}
@@ -172,13 +214,27 @@ const FormSeacrh: FC<IStateResultData> = ({
 			</div>
 			<div className={styles['form__block-checkbox']}>
 				<div>
-					<Checkbox id={'max'}>Признак максимальной полноты</Checkbox>
-					<Checkbox id={'context'}>Упоминания в бизнес-контексте</Checkbox>
-					<Checkbox id={'public'}>Главная роль в публикации</Checkbox>
-					<Checkbox id={'factors'}>Публикации только с риск-факторами</Checkbox>
-					<Checkbox id={'news'}>Включать технические новости рынков</Checkbox>
-					<Checkbox id={'calendar'}>Включать анонсы и календари</Checkbox>
-					<Checkbox id={'onNews'}>Включать сводки новостей</Checkbox>
+					<Checkbox id={'max'} register={register}>
+						Признак максимальной полноты
+					</Checkbox>
+					<Checkbox id={'context'} register={register}>
+						Упоминания в бизнес-контексте
+					</Checkbox>
+					<Checkbox id={'public'} register={register}>
+						Главная роль в публикации
+					</Checkbox>
+					<Checkbox id={'factors'} register={register}>
+						Публикации только с риск-факторами
+					</Checkbox>
+					<Checkbox id={'news'} register={register}>
+						Включать технические новости рынков
+					</Checkbox>
+					<Checkbox id={'calendar'} register={register}>
+						Включать анонсы и календари
+					</Checkbox>
+					<Checkbox id={'onNews'} register={register}>
+						Включать сводки новостей
+					</Checkbox>
 				</div>
 				<button type='submit' className={styles['button-search']}>
 					Поиск
