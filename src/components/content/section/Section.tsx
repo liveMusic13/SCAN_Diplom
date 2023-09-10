@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useAuthPage } from '../../../hooks/useAuthPage';
-import FormSeacrhTest from '../../form-search/FormSeacrhTest';
+import FormSeacrh from '../../form-search/FormSeacrh';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
 import styles from './Section.module.scss';
@@ -21,11 +21,22 @@ const Section: FC<ISectionProps> = ({ section }) => {
 
 	const [resultData, setResultData] = useState({});
 
-	// const [colorDateStart, setColorDateStart] = useState(0);
-	// const [colorDateEnd, setColorDateEnd] = useState(0);
+	const [isViewSearch, setIsViewSearch] = useState(true);
 
-	// const [arrResult, setArrResult] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-	console.log(resultData);
+	function formatDate(inputDate: string) {
+		// Разбиваем входную строку на части, используя "T" как разделитель
+		const parts = inputDate.split('T');
+
+		// Берем только дату из первой части и разбиваем ее на год, месяц и день
+		const datePart = parts[0];
+		const [year, month, day] = datePart.split('-');
+
+		// Формируем строку в нужном формате
+		const formattedDate = `${day}.${month}.${year}`;
+
+		return formattedDate;
+	}
+
 	return (
 		<>
 			{
@@ -282,214 +293,201 @@ const Section: FC<ISectionProps> = ({ section }) => {
 				// HELP: SEARCH
 				section === 'search' && (
 					<section className={cn(styles[section])}>
-						<div className={styles['search__block-content']}>
-							<h2 className={styles['search__title']}>
-								Найдите необходимые данные в пару кликов.
-							</h2>
-							<p className={styles['search__paragraph']}>
-								Задайте параметры поиска. Чем больше заполните, тем точнее поиск
-							</p>
-							{/* <FormSeacrh /> */}
-							<FormSeacrhTest
-								resultData={resultData}
-								setResultData={setResultData}
-							/>
-						</div>
-						<div
-							className={cn(
-								styles['search__block-images'],
-								styles['images-block']
-							)}
-						>
-							<img
-								className={styles['images-block__document']}
-								src='/images/icon/document.svg'
-								alt='img'
-							/>
-							<img
-								className={styles['images-block__folders']}
-								src='/images/icon/folders.svg'
-								alt='img'
-							/>
-							<img
-								className={styles['images-block__people']}
-								src='/images/background-images/search/people.png'
-								alt='img'
-							/>
-						</div>
-					</section>
-				)
-			}
-			{
-				// HELP: RESULT-ONE
-				section === 'result-one' && (
-					<section className={cn(styles[section])}>
-						<div className={styles['result__block-content']}>
-							<h2 className={styles['result-one__title']}>
-								Ищем. Скоро будут результаты
-							</h2>
-							<p className={styles['result-one__paragraph']}>
-								Поиск может занять некоторое время, просим сохранять терпение.
-							</p>
-						</div>
-						<img
-							src='/images/background-images/result/woman-target.png'
-							alt='img'
-						/>
-					</section>
-				)
-			}
-			{
-				// HELP: RESULT-TWO
-				section === 'result-two' && (
-					<section className={cn(styles[section])}>
-						<h2 className={styles['result-two__title']}>Общая сводка</h2>
-						<p className={styles['result-two__paragraph']}>
-							Найдено 4 221 вариантов
-						</p>
-						<div className={styles['result-two__wrapper-result']}>
-							<button>
-								<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
-							</button>
-							<div
-								className={cn(
-									styles['result-two__block-result'],
-									styles['result-block']
-								)}
-							>
-								<div className={styles['result-block__name']}>
-									<p>Период</p>
-									<p>Всего</p>
-									<p>Риски</p>
+						{isViewSearch ? (
+							<div className={styles.ofAConditionWithoutAMentor}>
+								<div className={styles['search__block-content']}>
+									<h2 className={styles['search__title']}>
+										Найдите необходимые данные в пару кликов.
+									</h2>
+									<p className={styles['search__paragraph']}>
+										Задайте параметры поиска. Чем больше заполните, тем точнее
+										поиск
+									</p>
+									<FormSeacrh
+										setIsViewSearch={setIsViewSearch}
+										setResultData={setResultData}
+									/>
+									{/* <FormSeacrhTest
+										setIsViewSearch={setIsViewSearch}
+										setResultData={setResultData}
+									/> */}
+									{resultData.data ? (
+										resultData.data.data[0].data.map(elem => {
+											return (
+												<div
+													key={Math.random()}
+													className={styles['result-block__result']}
+												>
+													<p>{elem.date}</p>
+													<p>{elem.value}</p>
+													<p>0</p>
+												</div>
+											);
+										})
+									) : (
+										<></>
+									)}
 								</div>
-								{resultData.data ? (
-									resultData.data.data[0].data.map(elem => {
-										return (
-											<div
-												key={Math.random()}
-												className={styles['result-block__result']}
-											>
-												<p>{elem.date}</p>
-												<p>{elem.value}</p>
-												<p>0</p>
+								<div
+									className={cn(
+										styles['search__block-images'],
+										styles['images-block']
+									)}
+								>
+									<img
+										className={styles['images-block__document']}
+										src='/images/icon/document.svg'
+										alt='img'
+									/>
+									<img
+										className={styles['images-block__folders']}
+										src='/images/icon/folders.svg'
+										alt='img'
+									/>
+									<img
+										className={styles['images-block__people']}
+										src='/images/background-images/search/people.png'
+										alt='img'
+									/>
+								</div>
+							</div>
+						) : (
+							<div className={styles.ofAConditionWithoutAMentor__result}>
+								<section className={cn(styles['result-one'])}>
+									<div className={styles['result__block-content']}>
+										<h2 className={styles['result-one__title']}>
+											Ищем. Скоро будут результаты
+										</h2>
+										<p className={styles['result-one__paragraph']}>
+											Поиск может занять некоторое время, просим сохранять
+											терпение.
+										</p>
+									</div>
+									<img
+										src='/images/background-images/result/woman-target.png'
+										alt='img'
+									/>
+								</section>
+								<section className={cn(styles['result-two'])}>
+									<h2 className={styles['result-two__title']}>Общая сводка</h2>
+									<p className={styles['result-two__paragraph']}>
+										Найдено 4 221 вариантов
+									</p>
+									<div className={styles['result-two__wrapper-result']}>
+										<button>
+											<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
+										</button>
+										<div
+											className={cn(
+												styles['result-two__block-result'],
+												styles['result-block']
+											)}
+										>
+											<div className={styles['result-block__name']}>
+												<p>Период</p>
+												<p>Всего</p>
+												<p>Риски</p>
 											</div>
-										);
-									})
-								) : (
-									<></>
-								)}
-								{/* <div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div>
-								<div className={styles['result-block__result']}>
-									<p>10.09.2021</p>
-									<p>5</p>
-									<p>0</p>
-								</div> */}
+											{resultData.data ? (
+												resultData.data.data[0].data.map(elem => {
+													return (
+														<div
+															key={Math.random()}
+															className={styles['result-block__result']}
+														>
+															<p>{formatDate(elem.date)}</p>
+															<p>{elem.value}</p>
+															<p>0</p>
+														</div>
+													);
+												})
+											) : (
+												<></>
+											)}
+										</div>
+										<button>
+											<img
+												src='/images/icon/arrows/arrow_right.svg'
+												alt='img'
+											/>
+										</button>
+									</div>
+								</section>
+								<section className={cn(styles['result-three'])}>
+									<h2 className={styles['result-three__title']}>
+										Список документов
+									</h2>
+									<div className={styles['result-three__wrapper-document']}>
+										<div className={styles['result-three__block-document']}>
+											<div className={styles['result-three__block-date']}>
+												<p>13.09.2021</p>
+												<p>Комсомольская правда KP.RU</p>
+											</div>
+											<h2>
+												Скиллфэктори - лучшая онлайн-школа для будущих
+												айтишников
+											</h2>
+											<p>Технические новости</p>
+											<div className={styles['result-three__block-info']}>
+												<img src='/images/test.png' alt='test' />
+												<p>
+													SkillFactory — школа для всех, кто хочет изменить свою
+													карьеру и жизнь. С 2016 года обучение прошли 20 000+
+													человек из 40 стран с 4 континентов, самому взрослому
+													студенту сейчас 86 лет. Выпускники работают в Сбере,
+													Cisco, Bayer, Nvidia, МТС, Ростелекоме, Mail.ru,
+													Яндексе, Ozon и других топовых компаниях. Принципы
+													SkillFactory: акцент на практике, забота о студентах и
+													ориентир на трудоустройство. 80% обучения — выполнение
+													упражнений и реальных проектов. Каждого студента
+													поддерживают менторы, 2 саппорт-линии и комьюнити
+													курса. А карьерный центр помогает составить резюме,
+													подготовиться к собеседованиям и познакомиться с
+													IT-рекрутерами.
+												</p>
+											</div>
+											<div className={styles['result-three__title']}>
+												<a href='#'>Читать в источнике</a>
+												<p>2 543 слова</p>
+											</div>
+										</div>
+										<div className={styles['result-three__block-document']}>
+											<div className={styles['result-three__block-date']}>
+												<p>13.09.2021</p>
+												<p>Комсомольская правда KP.RU</p>
+											</div>
+											<h2>
+												Скиллфэктори - лучшая онлайн-школа для будущих
+												айтишников
+											</h2>
+											<p>Технические новости</p>
+											<div className={styles['result-three__block-info']}>
+												<img src='/images/test.png' alt='test' />
+												<p>
+													SkillFactory — школа для всех, кто хочет изменить свою
+													карьеру и жизнь. С 2016 года обучение прошли 20 000+
+													человек из 40 стран с 4 континентов, самому взрослому
+													студенту сейчас 86 лет. Выпускники работают в Сбере,
+													Cisco, Bayer, Nvidia, МТС, Ростелекоме, Mail.ru,
+													Яндексе, Ozon и других топовых компаниях. Принципы
+													SkillFactory: акцент на практике, забота о студентах и
+													ориентир на трудоустройство. 80% обучения — выполнение
+													упражнений и реальных проектов. Каждого студента
+													поддерживают менторы, 2 саппорт-линии и комьюнити
+													курса. А карьерный центр помогает составить резюме,
+													подготовиться к собеседованиям и познакомиться с
+													IT-рекрутерами.
+												</p>
+											</div>
+											<div className={styles['result-three__title']}>
+												<a href='#'>Читать в источнике</a>
+												<p>2 543 слова</p>
+											</div>
+										</div>
+									</div>
+								</section>
 							</div>
-							<button>
-								<img src='/images/icon/arrows/arrow_right.svg' alt='img' />
-							</button>
-						</div>
-					</section>
-				)
-			}
-			{
-				// HELP: RESULT-THREE
-				section === 'result-three' && (
-					<section className={cn(styles[section])}>
-						<h2 className={styles['result-three__title']}>Список документов</h2>
-						<div className={styles['result-three__wrapper-document']}>
-							<div className={styles['result-three__block-document']}>
-								<div className={styles['result-three__block-date']}>
-									<p>13.09.2021</p>
-									<p>Комсомольская правда KP.RU</p>
-								</div>
-								<h2>
-									Скиллфэктори - лучшая онлайн-школа для будущих айтишников
-								</h2>
-								<p>Технические новости</p>
-								<div className={styles['result-three__block-info']}>
-									<img src='/images/test.png' alt='test' />
-									<p>
-										SkillFactory — школа для всех, кто хочет изменить свою
-										карьеру и жизнь. С 2016 года обучение прошли 20 000+ человек
-										из 40 стран с 4 континентов, самому взрослому студенту
-										сейчас 86 лет. Выпускники работают в Сбере, Cisco, Bayer,
-										Nvidia, МТС, Ростелекоме, Mail.ru, Яндексе, Ozon и других
-										топовых компаниях. Принципы SkillFactory: акцент на
-										практике, забота о студентах и ориентир на трудоустройство.
-										80% обучения — выполнение упражнений и реальных проектов.
-										Каждого студента поддерживают менторы, 2 саппорт-линии и
-										комьюнити курса. А карьерный центр помогает составить
-										резюме, подготовиться к собеседованиям и познакомиться с
-										IT-рекрутерами.
-									</p>
-								</div>
-								<div className={styles['result-three__title']}>
-									<a href='#'>Читать в источнике</a>
-									<p>2 543 слова</p>
-								</div>
-							</div>
-							<div className={styles['result-three__block-document']}>
-								<div className={styles['result-three__block-date']}>
-									<p>13.09.2021</p>
-									<p>Комсомольская правда KP.RU</p>
-								</div>
-								<h2>
-									Скиллфэктори - лучшая онлайн-школа для будущих айтишников
-								</h2>
-								<p>Технические новости</p>
-								<div className={styles['result-three__block-info']}>
-									<img src='/images/test.png' alt='test' />
-									<p>
-										SkillFactory — школа для всех, кто хочет изменить свою
-										карьеру и жизнь. С 2016 года обучение прошли 20 000+ человек
-										из 40 стран с 4 континентов, самому взрослому студенту
-										сейчас 86 лет. Выпускники работают в Сбере, Cisco, Bayer,
-										Nvidia, МТС, Ростелекоме, Mail.ru, Яндексе, Ozon и других
-										топовых компаниях. Принципы SkillFactory: акцент на
-										практике, забота о студентах и ориентир на трудоустройство.
-										80% обучения — выполнение упражнений и реальных проектов.
-										Каждого студента поддерживают менторы, 2 саппорт-линии и
-										комьюнити курса. А карьерный центр помогает составить
-										резюме, подготовиться к собеседованиям и познакомиться с
-										IT-рекрутерами.
-									</p>
-								</div>
-								<div className={styles['result-three__title']}>
-									<a href='#'>Читать в источнике</a>
-									<p>2 543 слова</p>
-								</div>
-							</div>
-						</div>
+						)}
 					</section>
 				)
 			}

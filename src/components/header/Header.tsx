@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { $axios } from '../../api';
 import { TOKEN } from '../../app.constants';
@@ -21,21 +21,23 @@ const Header: FC = () => {
 	const [companyLimit, setCompanyLimit] = useState(null);
 	const [usedCompanyCount, setUsedCompanyCount] = useState(null);
 
-	if (isAuth) {
-		const responseFunc = async () => {
-			try {
-				const response = await $axios.get('/v1/account/info');
+	useMemo(() => {
+		if (isAuth) {
+			const responseFunc = async () => {
+				try {
+					const response = await $axios.get('/v1/account/info');
 
-				setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
-				setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
-				console.log(companyLimit);
-				console.log(usedCompanyCount);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		responseFunc();
-	}
+					setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
+					setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+					console.log(companyLimit);
+					console.log(usedCompanyCount);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			responseFunc();
+		}
+	}, [companyLimit, usedCompanyCount]);
 
 	return (
 		<header className={styles.header}>

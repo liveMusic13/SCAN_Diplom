@@ -4,14 +4,15 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { $axios } from '../../api';
 import styles from './FormSeacrh.module.scss';
+import TestInput from './testInput';
 
 interface IStateResultData {
-	resultData: object;
 	setResultData: Dispatch<SetStateAction<object>>;
+	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
 }
 
 const FormSeacrhTest: FC<IStateResultData> = ({
-	resultData,
+	setIsViewSearch,
 	setResultData,
 }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
@@ -75,7 +76,6 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 			limit,
 			issueDateInterval,
 		};
-		setDataValue(updateDate);
 
 		console.log(updateDate);
 
@@ -86,10 +86,7 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 			);
 
 			setResultData(response);
-
-			// console.log('i am here', resultData);
-			// console.log(resultData.data.data[0]);
-			// console.log('two: ', resultData.data.data[0].data[5]);
+			setIsViewSearch(false);
 		} catch (error) {
 			console.log(error);
 		}
@@ -100,7 +97,7 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 			className={cn(styles['search__form'], styles.form)}
 			onSubmit={handleSubmit(test)}
 		>
-			{resultData.data ? (
+			{/* {resultData.data ? (
 				resultData.data.data[0].data.map(elem => {
 					return (
 						<div key={Math.random()} className={styles['result-block__result']}>
@@ -112,9 +109,9 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 				})
 			) : (
 				<></>
-			)}
+			)} */}
 			<div className={styles['form__block-input']}>
-				<input
+				{/* <input
 					{...register('inn', {
 						required: 'no',
 						pattern: {
@@ -127,7 +124,8 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 					style={{
 						backgroundColor: 'rgba(70, 90, 126, 0)',
 					}}
-				/>
+				/> */}
+				<TestInput inn={true} register={register} />
 				{/* {errors.inn && (
 					<div style={{ color: 'red', fontSize: '10px' }}>
 						{errors.inn.message}
@@ -150,7 +148,8 @@ const FormSeacrhTest: FC<IStateResultData> = ({
 					</select>
 				</div>
 
-				<input {...register('limit')} type='text' placeholder='от 1 до 1000' />
+				{/* <input {...register('limit')} type='text' placeholder='от 1 до 1000' /> */}
+				<TestInput inn={false} register={register} />
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *

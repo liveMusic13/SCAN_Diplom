@@ -1,63 +1,142 @@
 import cn from 'clsx';
-import React, { FC, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { $axios } from '../../api';
-import Button from '../ui/button/Button';
 import Checkbox from '../ui/checkbox/Checkbox';
 import Input from '../ui/input/Input';
 import styles from './FormSeacrh.module.scss';
 
-const FormSeacrh: FC = () => {
+interface IStateResultData {
+	setResultData: Dispatch<SetStateAction<object>>;
+	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
+}
+
+//7710137066 INN
+
+const FormSeacrh: FC<IStateResultData> = ({
+	setIsViewSearch,
+	setResultData,
+}) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
-	//test
-	const onSubmitSearch = data => {
-		//inn gazprom 7736050003
+	const [dataValue, setDataValue] = useState({
+		issueDateInterval: {
+			startDate: '',
+			endDate: '',
+		},
+		attributeFilters: {
+			excludeTechNews: true,
+			excludeAnnouncements: true,
+			excludeDigests: true,
+		},
+		similarMode: 'duplicates',
+		sortType: 'sourceInfluence',
+		sortDirectionType: 'desc',
+		intervalType: 'month',
+		histogramTypes: ['totalDocuments', 'riskFactors'],
+	});
+
+	const {
+		register,
+		handleSubmit,
+		getValues,
+		formState: { errors },
+	} = useForm({
+		mode: 'onChange',
+	});
+
+	const onSubmit = async () => {
+		const searchContext = {
+			targetSearchEntitiesContext: {
+				targetSearchEntities: [
+					{
+						type: 'company',
+						sparkId: null,
+						entityId: null,
+						inn: Number(getValues('inn')),
+						maxFullness: true,
+						inBusinessNews: null,
+					},
+				],
+				onlyMainRole: true,
+				tonality: getValues('tonality'),
+				onlyWithRiskFactors: true,
+			},
+		};
+		const limit = Number(getValues('limit'));
+		const issueDateInterval = {
+			startDate: getValues('startDate'),
+			endDate: getValues('endDate'),
+		};
+
+		const updateDate = {
+			...dataValue,
+			searchContext,
+			limit,
+			issueDateInterval,
+		};
+
 		try {
-			const responce = $axios.post('/v1/objectsearch/histograms');
-			console.log(responce);
-			console.log('data:', data);
+			const response = await $axios.post(
+				'/v1/objectsearch/histograms',
+				updateDate
+			);
+
+			setResultData(response);
+			setIsViewSearch(false);
+
+			const testing = async () => {
+				try {
+					const response = await $axios.post('/v1/objectsearch', updateDate);
+					console.log(response);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			testing();
 		} catch (error) {
 			console.log(error);
 		}
 	};
-	//test
 
-	const { handleSubmit, register } = useForm();
 	return (
 		<form
 			className={cn(styles['search__form'], styles.form)}
-			onSubmit={handleSubmit(onSubmitSearch)}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className={styles['form__block-input']}>
-				<Input id={'INN'} placeholder='10 цифр'>
+				<Input inn={true} register={register}>
 					ИНН компании *
 				</Input>
+				{errors.inn && (
+					<div style={{ color: 'red', fontSize: '10px' }}>
+						{errors.inn.message}
+					</div>
+				)}
 				<div className={styles['form__block-select']}>
 					<label className={styles['form__label-select']} htmlFor='select'>
 						Тональность
 					</label>
 					<select
-						defaultValue='Любая'
+						defaultValue='any'
 						id='select'
-						{...register(`select`, {
+						{...register(`tonality`, {
 							required: 'Введите корректные данные',
 						})}
 					>
-						<option value='Позитивная'>Позитивная</option>
-						<option value='Негативная'>Негативная</option>
-						<option value='Любая'>Любая</option>
+						<option value='positive'>Позитивная</option>
+						<option value='negative'>Негативная</option>
+						<option value='any'>Любая</option>
 					</select>
 				</div>
-				<Input id={'docs'} placeholder='от 1 до 1000'>
+				<Input inn={false} register={register}>
 					Количество документов в выдаче *
 				</Input>
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *
 						<input
-							id='dateStart'
 							className={cn({
 								[styles.start_data]: colorDateStart === 0,
 								[styles.start_data_noBefore]: colorDateStart === 1,
@@ -67,14 +146,13 @@ const FormSeacrh: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
-							{...register(`dateStart`, {
+							{...register(`startDate`, {
 								required: 'Введите корректные данные',
 							})}
 						/>
 					</label>
 					<label>
 						<input
-							id='dataEnd'
 							className={cn({
 								[styles.end_data]: colorDateEnd === 0,
 								[styles.end_data_noBefore]: colorDateEnd === 1,
@@ -85,7 +163,7 @@ const FormSeacrh: FC = () => {
 							style={{
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
-							{...register(`dataEnd`, {
+							{...register(`endDate`, {
 								required: 'Введите корректные данные',
 							})}
 						/>
@@ -102,7 +180,9 @@ const FormSeacrh: FC = () => {
 					<Checkbox id={'calendar'}>Включать анонсы и календари</Checkbox>
 					<Checkbox id={'onNews'}>Включать сводки новостей</Checkbox>
 				</div>
-				<Button styleForButton='button-search'>Поиск</Button>
+				<button type='submit' className={styles['button-search']}>
+					Поиск
+				</button>
 				<p className={styles['form__help']}>* Обязательные к заполнению поля</p>
 			</div>
 		</form>
