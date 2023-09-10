@@ -1,0 +1,273 @@
+@import '../../assets/styles/variables';
+.form {
+	display: flex;
+	gap: 10px;
+	box-shadow: 0px 0px 20px $color-text-inactive;
+	padding: 20px 40px 30px 40px;
+	border-radius: 10px;
+	width: 872px;
+	margin-bottom: 65px;
+
+	@media (max-width: 1200px) {
+		max-width: 772px;
+		padding: 10px 30px 20px 30px;
+	}
+
+	@media (max-width: 991.98px) {
+		max-width: 620px;
+	}
+
+	@media (max-width: 767.98px) {
+		max-width: 375px;
+		padding: 30px 14px 30px 14px;
+		margin-bottom: 0px;
+	}
+
+	> .form__block-input {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+
+		@media (max-width: 767.98px) {
+			width: 100%;
+		}
+
+		> .form__block-select {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+
+			> .form__label-select {
+				font-size: 1.3em;
+			}
+
+			> select {
+				width: 242px;
+				height: 43px;
+				border-radius: 5px;
+				border: 1px solid $no-active-color;
+				outline: none;
+				padding: 13px 20px;
+				appearance: none;
+				background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat right
+					15px top 10px;
+				background-size: 25px 25px;
+
+				@media (max-width: 991.98px) {
+					width: 180px;
+				}
+
+				@media (max-width: 767.98px) {
+					font-size: 1em;
+					width: 100%;
+				}
+			}
+		}
+
+		> .form__block-data-input {
+			display: flex;
+			gap: 20px;
+
+			@media (max-width: 991.98px) {
+				flex-direction: column;
+			}
+
+			> label {
+				width: 176px;
+
+				@media (max-width: 991.98px) {
+					max-width: 146px;
+				}
+
+				@media (max-width: 767.98px) {
+					font-size: 1.3em;
+				}
+
+				.start_data_noBefore {
+					margin-top: 20px;
+					width: 176px;
+					height: 43px;
+					padding: 13px 12px 13px 44px;
+					outline: none;
+					border: 1px solid $no-active-color;
+					border-radius: 5px;
+					position: relative;
+					color: rgba($color: #000000, $alpha: 0);
+
+					@media (max-width: 767.98px) {
+						width: 348px;
+					}
+
+					&::-webkit-clear-button,
+					&::-webkit-inner-spin-button {
+						display: none;
+					}
+
+					&::-webkit-calendar-picker-indicator {
+						margin-top: 10px;
+						background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat;
+						background-size: contain;
+						width: 20px;
+						height: 20px;
+						opacity: 1; /* Если требуется видимость */
+					}
+				}
+
+				.start_data {
+					margin-top: 20px;
+					width: 176px;
+					height: 43px;
+					padding: 13px 12px 13px 44px;
+					outline: none;
+					border: 1px solid $no-active-color;
+					border-radius: 5px;
+					position: relative;
+					color: rgba($color: #000000, $alpha: 0);
+
+					@media (max-width: 767.98px) {
+						width: 348px;
+					}
+
+					&::-webkit-clear-button,
+					&::-webkit-inner-spin-button {
+						display: none;
+					}
+
+					&::-webkit-calendar-picker-indicator {
+						margin-top: 10px;
+						background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat;
+						background-size: contain;
+						width: 20px;
+						height: 20px;
+						opacity: 1; /* Если требуется видимость */
+					}
+
+					&::before {
+						content: 'Дата начала'; /* Текст placeholder */
+						position: absolute; /* Позиционирование псевдоэлемента */
+						top: 50%; /* Положение сверху */
+						left: 38px; /* Положение слева */
+						transform: translateY(-50%); /* Выравнивание по вертикали */
+						pointer-events: none; /* Запрет взаимодействия с псевдоэлементом */
+						color: #aaa; /* Цвет текста placeholder */
+					}
+				}
+			}
+
+			.end_data_noBefore {
+				margin-top: 42px;
+				width: 176px;
+				height: 43px;
+				padding: 13px 12px 13px 44px;
+				outline: none;
+				border: 1px solid $no-active-color;
+				border-radius: 5px;
+				position: relative;
+
+				@media (max-width: 991.98px) {
+					margin-top: 10px;
+				}
+
+				@media (max-width: 767.98px) {
+					width: 348px;
+				}
+
+				&::-webkit-clear-button,
+				&::-webkit-inner-spin-button {
+					display: none;
+				}
+
+				&::-webkit-calendar-picker-indicator {
+					margin-top: 10px;
+					background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat;
+					background-size: contain;
+					width: 20px;
+					height: 20px;
+					opacity: 1; /* Если требуется видимость */
+				}
+			}
+
+			.end_data {
+				margin-top: 42px;
+				width: 176px;
+				height: 43px;
+				padding: 13px 12px 13px 44px;
+				outline: none;
+				border: 1px solid $no-active-color;
+				border-radius: 5px;
+				position: relative;
+
+				@media (max-width: 991.98px) {
+					margin-top: 10px;
+				}
+
+				@media (max-width: 767.98px) {
+					width: 348px;
+				}
+
+				&::-webkit-clear-button,
+				&::-webkit-inner-spin-button {
+					display: none;
+				}
+
+				&::-webkit-calendar-picker-indicator {
+					margin-top: 10px;
+					background: url('/images/icon/arrows/arrow_bottom.svg') no-repeat;
+					background-size: contain;
+					width: 20px;
+					height: 20px;
+					opacity: 1; /* Если требуется видимость */
+				}
+
+				&::before {
+					content: 'Дата конца'; /* Текст placeholder */
+					position: absolute; /* Позиционирование псевдоэлемента */
+					top: 50%; /* Положение сверху */
+					left: 38px; /* Положение слева */
+					transform: translateY(-50%); /* Выравнивание по вертикали */
+					pointer-events: none; /* Запрет взаимодействия с псевдоэлементом */
+					color: #aaa; /* Цвет текста placeholder */
+				}
+			}
+		}
+	}
+	> .form__block-checkbox {
+		display: flex;
+		flex-direction: column;
+		padding-top: 15px;
+
+		@media (max-width: 767.98px) {
+			display: none;
+		}
+
+		> div {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+			margin-bottom: 130px;
+
+			@media (max-width: 1200px) {
+				margin-bottom: 85px;
+			}
+		}
+
+		> .button-search {
+			width: 305px;
+			height: 60px;
+			color: $colorOne;
+			background-color: $colorSix;
+			opacity: 0.5;
+			border-radius: 5px;
+			font-size: 1.2em;
+			align-self: flex-end;
+		}
+
+		> .form__help {
+			margin-top: 10px;
+			font-size: 0.8em;
+			color: $no-active-color;
+			align-self: center;
+			padding-left: 25px;
+		}
+	}
+}

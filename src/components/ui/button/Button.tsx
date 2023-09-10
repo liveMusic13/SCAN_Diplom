@@ -1,5 +1,7 @@
 import cn from 'clsx';
 import React, { FC, PropsWithChildren } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks/useAuth';
 import styles from './Button.module.scss';
 
 interface IPropsStyle {
@@ -17,11 +19,16 @@ const Button: FC<PropsWithChildren<IPropsStyle>> = ({
 }) => {
 	const isFormFalid = !formValue?.login || !formValue?.password;
 
+	const navigate = useNavigate();
+
+	const { isAuth } = useAuth();
+
 	return (
 		<button
-			disabled={isFormFalid}
+			// disabled={isFormFalid}
 			onClick={
-				() => console.log('ok') // TODO: MAKE IS REQUEST TO SERVER
+				() => (isAuth ? navigate('/') : '') //потом включу проверку для того чтобы при регистрации отправляло на главную  // TODO: MAKE IS REQUEST TO SERVER
+				// () => console.log('yes')
 			}
 			className={cn(
 				styles[styleForButton],
