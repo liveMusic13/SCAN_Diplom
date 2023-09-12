@@ -21,6 +21,7 @@
 		max-width: 375px;
 		padding: 30px 14px 30px 14px;
 		margin-bottom: 0px;
+		flex-direction: column;
 	}
 
 	> .form__block-input {
@@ -260,6 +261,11 @@
 			border-radius: 5px;
 			font-size: 1.2em;
 			align-self: flex-end;
+
+			@media (max-width: 767.98px) {
+				align-self: center;
+				width: 100%;
+			}
 		}
 
 		> .form__help {
@@ -268,6 +274,11 @@
 			color: $no-active-color;
 			align-self: center;
 			padding-left: 25px;
+
+			@media (max-width: 767.98px) {
+				align-self: flex-start;
+				width: 100%;
+			}
 		}
 	}
 }

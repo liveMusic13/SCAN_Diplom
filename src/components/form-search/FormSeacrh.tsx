@@ -76,8 +76,6 @@ const FormSeacrh: FC<IStateResultData> = ({
 			});
 			console.log(test);
 
-			// console.log(response.data.items);
-
 			responseDocuments();
 		} catch (error) {
 			console.log(error);
