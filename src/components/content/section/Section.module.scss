@@ -1158,6 +1158,8 @@
 
 		.result-three {
 			margin-top: 107px;
+			display: flex;
+			flex-direction: column;
 
 			> .result-three__title {
 				font-size: 1.66em;
@@ -1167,13 +1169,14 @@
 
 			> .result-three__wrapper-document {
 				display: flex;
+				flex-wrap: wrap;
 				gap: 38px;
 				margin-bottom: 38px;
 
 				> .result-three__block-document {
 					border-radius: 10px;
 					box-shadow: 0px 0px 20px $color-text-inactive;
-					max-width: 641px;
+					max-width: 638px;
 					padding: 19px 30px 35px 30px;
 
 					> .result-three__block-date {
@@ -1233,6 +1236,18 @@
 						}
 					}
 				}
+			}
+
+			> .result-three__button-show-more {
+				margin-bottom: 109px;
+				width: 305px;
+				height: 60px;
+				background-color: $colorSix;
+				color: $colorOne;
+				border-radius: 5px;
+				align-self: center;
+				font-weight: 500;
+				font-size: 1.2em;
 			}
 		}
 	}

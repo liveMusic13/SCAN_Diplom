@@ -9,6 +9,8 @@ import styles from './FormSeacrh.module.scss';
 interface IStateResultData {
 	setResultData: Dispatch<SetStateAction<object>>;
 	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
+	viewDocuments: object;
+	setViewDocuments: Dispatch<SetStateAction<any>>;
 }
 
 //7710137066 INN
@@ -16,21 +18,15 @@ interface IStateResultData {
 const FormSeacrh: FC<IStateResultData> = ({
 	setIsViewSearch,
 	setResultData,
+	viewDocuments,
+	setViewDocuments,
 }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
-	// const [resultObjectSearch, setResultObjectSearch] = useState(null);
 	let test = {
 		ids: [],
 	};
-	let viewDocuments = {
-		ids: [],
-	};
-
-	// useEffect(() => {
-	// 	console.log(resultObjectSearch);
-	// }, [resultObjectSearch]);
 
 	const [dataValue, setDataValue] = useState({
 		issueDateInterval: {
@@ -59,22 +55,14 @@ const FormSeacrh: FC<IStateResultData> = ({
 	});
 
 	const responseDocuments = async () => {
-		if (test.ids.length >= 10) {
-			viewDocuments.ids = test.ids.slice(0, 10);
-			console.log(viewDocuments);
-			try {
-				const response = await $axios.post('/v1/objectsearch', viewDocuments);
-				console.log(response);
-			} catch (error) {
-				console.log(error);
-			}
-		} else {
-			try {
-				const response = await $axios.post('/v1/objectsearch', test);
-				console.log(response);
-			} catch (error) {
-				console.log(error);
-			}
+		try {
+			const response = await $axios.post('/v1/documents', test);
+
+			setViewDocuments(response.data);
+			console.log('request', response);
+			console.log('state documents', viewDocuments);
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
