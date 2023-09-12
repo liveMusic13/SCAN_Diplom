@@ -1,6 +1,5 @@
 import Auth from '../components/screens/auth/Auth';
 import Home from '../components/screens/home/Home';
-import Result from '../components/screens/result/Result';
 import Search from '../components/screens/search/Search';
 
 interface IRoute {
@@ -23,11 +22,6 @@ export const routes: IRoute[] = [
 	{
 		path: '/search',
 		component: Search,
-		isAuth: true,
-	},
-	{
-		path: '/result',
-		component: Result,
 		isAuth: true,
 	},
 ];

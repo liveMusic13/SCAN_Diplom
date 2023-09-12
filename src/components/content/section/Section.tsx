@@ -16,22 +16,52 @@ interface ISectionProps {
 const Section: FC<ISectionProps> = ({ section }) => {
 	const { isAuth } = useAuth();
 	const navigate = useNavigate();
-
 	const { onSubmit, register, handleSubmit, errors } = useAuthPage();
 
+	const [viewDocuments, setViewDocuments] = useState([]);
 	const [resultData, setResultData] = useState({});
-
 	const [isViewSearch, setIsViewSearch] = useState(true);
+	const [currentIndex, setCurrentIndex] = useState(0);
+
+	const [numberOfPublication, setNumberOfPublication] = useState(10);
+
+	const prevSlide = () => {
+		if (currentIndex > 0) {
+			setCurrentIndex(currentIndex - 1);
+		}
+	};
+
+	const nextSlide = () => {
+		if (currentIndex < resultData.data.data[0].data.length - 3) {
+			setCurrentIndex(currentIndex + 1);
+		}
+	};
+
+	const visibleItems =
+		resultData.data &&
+		resultData.data.data &&
+		resultData.data.data[0] &&
+		resultData.data.data[0].data
+			? resultData.data.data[0].data.slice(currentIndex, currentIndex + 3)
+			: [];
+	const visibleItemsRisk =
+		resultData.data &&
+		resultData.data.data &&
+		resultData.data.data[1] &&
+		resultData.data.data[1].data
+			? resultData.data.data[1].data.slice(currentIndex, currentIndex + 3)
+			: [];
+
+	function removeHtmlTags(text) {
+		return text.replace(/<[^>]*>/g, '');
+	}
 
 	function formatDate(inputDate: string) {
-		// Разбиваем входную строку на части, используя "T" как разделитель
 		const parts = inputDate.split('T');
 
-		// Берем только дату из первой части и разбиваем ее на год, месяц и день
 		const datePart = parts[0];
 		const [year, month, day] = datePart.split('-');
 
-		// Формируем строку в нужном формате
 		const formattedDate = `${day}.${month}.${year}`;
 
 		return formattedDate;
@@ -76,7 +106,6 @@ const Section: FC<ISectionProps> = ({ section }) => {
 						</div>
 						<img
 							className={styles['home-two__image']}
-							// src='/images/background-images/home/sectionTwo.png'
 							src={
 								window.innerWidth <= 991.98
 									? '/images/background-images/home/sectionTwo_mobile.png'
@@ -304,8 +333,10 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										поиск
 									</p>
 									<FormSeacrh
+										viewDocuments={viewDocuments}
 										setIsViewSearch={setIsViewSearch}
 										setResultData={setResultData}
+										setViewDocuments={setViewDocuments}
 									/>
 									{/* <FormSeacrhTest
 										setIsViewSearch={setIsViewSearch}
@@ -374,7 +405,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Найдено 4 221 вариантов
 									</p>
 									<div className={styles['result-two__wrapper-result']}>
-										<button>
+										<button onClick={prevSlide}>
 											<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
 										</button>
 										<div
@@ -389,15 +420,17 @@ const Section: FC<ISectionProps> = ({ section }) => {
 												<p>Риски</p>
 											</div>
 											{resultData.data ? (
-												resultData.data.data[0].data.map(elem => {
+												visibleItems.map((item, index) => {
+													const itemRisk = visibleItemsRisk[index];
+
 													return (
 														<div
 															key={Math.random()}
 															className={styles['result-block__result']}
 														>
-															<p>{formatDate(elem.date)}</p>
-															<p>{elem.value}</p>
-															<p>0</p>
+															<p>{formatDate(item.date)}</p>
+															<p>{item.value}</p>
+															<p>{itemRisk.value}</p>
 														</div>
 													);
 												})
@@ -405,7 +438,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 												<></>
 											)}
 										</div>
-										<button>
+										<button onClick={nextSlide}>
 											<img
 												src='/images/icon/arrows/arrow_right.svg'
 												alt='img'
@@ -418,73 +451,60 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Список документов
 									</h2>
 									<div className={styles['result-three__wrapper-document']}>
-										<div className={styles['result-three__block-document']}>
-											<div className={styles['result-three__block-date']}>
-												<p>13.09.2021</p>
-												<p>Комсомольская правда KP.RU</p>
-											</div>
-											<h2>
-												Скиллфэктори - лучшая онлайн-школа для будущих
-												айтишников
-											</h2>
-											<p>Технические новости</p>
-											<div className={styles['result-three__block-info']}>
-												<img src='/images/test.png' alt='test' />
-												<p>
-													SkillFactory — школа для всех, кто хочет изменить свою
-													карьеру и жизнь. С 2016 года обучение прошли 20 000+
-													человек из 40 стран с 4 континентов, самому взрослому
-													студенту сейчас 86 лет. Выпускники работают в Сбере,
-													Cisco, Bayer, Nvidia, МТС, Ростелекоме, Mail.ru,
-													Яндексе, Ozon и других топовых компаниях. Принципы
-													SkillFactory: акцент на практике, забота о студентах и
-													ориентир на трудоустройство. 80% обучения — выполнение
-													упражнений и реальных проектов. Каждого студента
-													поддерживают менторы, 2 саппорт-линии и комьюнити
-													курса. А карьерный центр помогает составить резюме,
-													подготовиться к собеседованиям и познакомиться с
-													IT-рекрутерами.
-												</p>
-											</div>
-											<div className={styles['result-three__title']}>
-												<a href='#'>Читать в источнике</a>
-												<p>2 543 слова</p>
-											</div>
-										</div>
-										<div className={styles['result-three__block-document']}>
-											<div className={styles['result-three__block-date']}>
-												<p>13.09.2021</p>
-												<p>Комсомольская правда KP.RU</p>
-											</div>
-											<h2>
-												Скиллфэктори - лучшая онлайн-школа для будущих
-												айтишников
-											</h2>
-											<p>Технические новости</p>
-											<div className={styles['result-three__block-info']}>
-												<img src='/images/test.png' alt='test' />
-												<p>
-													SkillFactory — школа для всех, кто хочет изменить свою
-													карьеру и жизнь. С 2016 года обучение прошли 20 000+
-													человек из 40 стран с 4 континентов, самому взрослому
-													студенту сейчас 86 лет. Выпускники работают в Сбере,
-													Cisco, Bayer, Nvidia, МТС, Ростелекоме, Mail.ru,
-													Яндексе, Ozon и других топовых компаниях. Принципы
-													SkillFactory: акцент на практике, забота о студентах и
-													ориентир на трудоустройство. 80% обучения — выполнение
-													упражнений и реальных проектов. Каждого студента
-													поддерживают менторы, 2 саппорт-линии и комьюнити
-													курса. А карьерный центр помогает составить резюме,
-													подготовиться к собеседованиям и познакомиться с
-													IT-рекрутерами.
-												</p>
-											</div>
-											<div className={styles['result-three__title']}>
-												<a href='#'>Читать в источнике</a>
-												<p>2 543 слова</p>
-											</div>
-										</div>
+										{viewDocuments.map((document, index) => {
+											const xmlString = document.ok.content.markup;
+											const parser = new DOMParser();
+											const xmlDoc = parser.parseFromString(
+												xmlString,
+												'text/xml'
+											);
+											const xmlText = xmlDoc.documentElement.textContent;
+											if (index < numberOfPublication) {
+												return (
+													<div
+														key={document.ok.id}
+														className={styles['result-three__block-document']}
+													>
+														<div className={styles['result-three__block-date']}>
+															<p>{document.ok.issueDate}</p>
+															<p>{document.ok.source.name}</p>
+														</div>
+														<h2>{document.ok.title.text}</h2>
+														<p>
+															{document.ok.attributes.isTechNews
+																? 'Технические новости'
+																: document.ok.attributes.isDigest
+																? 'Сводка новостей'
+																: document.ok.attributes.isAnnouncement
+																? 'Анонс'
+																: 'Нейтральная категория'}
+														</p>
+														<div className={styles['result-three__block-info']}>
+															<img src='/images/test.png' alt='test' />
+															<p>{removeHtmlTags(xmlText)}</p>
+														</div>
+														<div className={styles['result-three__title']}>
+															<a href={document.ok.url}>Читать в источнике</a>
+															<p>{document.ok.attributes.wordCount} слов</p>
+														</div>
+													</div>
+												);
+											}
+										})}
 									</div>
+
+									{numberOfPublication <= viewDocuments.length ? (
+										<button
+											className={styles['result-three__button-show-more']}
+											onClick={() =>
+												setNumberOfPublication(prevValue => prevValue + 10)
+											}
+										>
+											Показать больше
+										</button>
+									) : (
+										<></>
+									)}
 								</section>
 							</div>
 						)}

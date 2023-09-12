@@ -8,7 +8,7 @@ const Slider: FC = () => {
 	const [viewDataMobile, setViewDataMobile] = useState([0]);
 
 	const prevSlide = () => {
-		if (window.innerWidth <= 1500) {
+		if (window.innerWidth <= 1500 && window.innerWidth > 991.98) {
 			setViewDataTab(prevState => {
 				const newState = prevState.map(elem => {
 					if (elem > 0) {
@@ -51,7 +51,7 @@ const Slider: FC = () => {
 	};
 
 	const nextSlide = () => {
-		if (window.innerWidth <= 1500) {
+		if (window.innerWidth <= 1500 && window.innerWidth > 991.98) {
 			setViewDataTab(prevState => {
 				const newState = prevState.map(elem => {
 					if (elem < data.length - 1) {
@@ -138,44 +138,6 @@ const Slider: FC = () => {
 								</div>
 							);
 					  })}
-				{/* {window.innerWidth <= 991.98
-					? viewDataTab.map(index => {
-							const advant = data[index];
-							return (
-								<div
-									key={advant.id}
-									className={styles['block-advantages__advantage']}
-								>
-									<img src={advant.img} alt='time' />
-									<p>{advant.description}</p>
-								</div>
-							);
-					  })
-					: window.innerWidth <= 1500
-					? viewDataMobile.map(index => {
-							const advant = data[index];
-							return (
-								<div
-									key={advant.id}
-									className={styles['block-advantages__advantage']}
-								>
-									<img src={advant.img} alt='time' />
-									<p>{advant.description}</p>
-								</div>
-							);
-					  })
-					: viewData.map(index => {
-							const advant = data[index];
-							return (
-								<div
-									key={advant.id}
-									className={styles['block-advantages__advantage']}
-								>
-									<img src={advant.img} alt='time' />
-									<p>{advant.description}</p>
-								</div>
-							);
-					  })} */}
 			</div>
 			<button onClick={nextSlide}>
 				<img src='/images/icon/arrows/arrow_right.svg' alt='arrow' />
