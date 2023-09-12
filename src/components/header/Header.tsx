@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { $axios } from '../../api';
 import { TOKEN } from '../../app.constants';
@@ -21,7 +21,30 @@ const Header: FC = () => {
 	const [companyLimit, setCompanyLimit] = useState(null);
 	const [usedCompanyCount, setUsedCompanyCount] = useState(null);
 
-	useMemo(() => {
+	// // const [infoLoaded, setInfoLoaded] = useState(false);
+	// const responseFunc = async () => {
+	// 	try {
+	// 		const response = await $axios.get('/v1/account/info');
+	// 		console.log(response.status);
+
+	// 		setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
+	// 		setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+
+	// 		console.log(companyLimit);
+	// 		console.log(usedCompanyCount);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	if (isAuth) {
+	// 		responseFunc();
+	// 	}
+	// 	// }, [companyLimit, usedCompanyCount]);
+	// }, [isAuth, companyLimit, usedCompanyCount]);
+	//////////////////////////////////////////////////////////////////////////////
+	useEffect(() => {
 		if (isAuth) {
 			const responseFunc = async () => {
 				try {
@@ -29,6 +52,7 @@ const Header: FC = () => {
 
 					setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
 					setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+					// setInfoLoaded(true);
 					console.log(companyLimit);
 					console.log(usedCompanyCount);
 				} catch (error) {
@@ -37,7 +61,8 @@ const Header: FC = () => {
 			};
 			responseFunc();
 		}
-	}, [companyLimit, usedCompanyCount]);
+		// }, [companyLimit, usedCompanyCount]);
+	}, [isAuth]);
 
 	return (
 		<header className={styles.header}>
@@ -62,12 +87,24 @@ const Header: FC = () => {
 				<>
 					<div className={styles.block_company}>
 						<div className={styles.block_usedCompany}>
-							<p className={styles.used_paragraph}>Использовано компаний</p>
-							<p className={styles.used_company}>{usedCompanyCount}</p>
+							{Cookies.get(TOKEN) ? (
+								<>
+									<p className={styles.used_paragraph}>Использовано компаний</p>
+									<p className={styles.used_company}>{usedCompanyCount}</p>
+								</>
+							) : (
+								<></>
+							)}
 						</div>
 						<div className={styles.block_companyLimit}>
-							<p className={styles.limit_paragraph}>Лимит по компаниям</p>
-							<p className={styles.limit_company}>{companyLimit}</p>
+							{Cookies.get(TOKEN) ? (
+								<>
+									<p className={styles.limit_paragraph}>Лимит по компаниям</p>
+									<p className={styles.limit_company}>{companyLimit}</p>
+								</>
+							) : (
+								<></>
+							)}
 						</div>
 					</div>
 					<div className={styles.block_avatar}>
