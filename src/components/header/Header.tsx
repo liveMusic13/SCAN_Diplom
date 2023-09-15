@@ -44,25 +44,26 @@ const Header: FC = () => {
 	// 	// }, [companyLimit, usedCompanyCount]);
 	// }, [isAuth, companyLimit, usedCompanyCount]);
 	//////////////////////////////////////////////////////////////////////////////
-	useEffect(() => {
-		if (isAuth) {
-			const responseFunc = async () => {
-				try {
-					const response = await $axios.get('/v1/account/info');
 
-					setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
-					setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
-					// setInfoLoaded(true);
-					console.log(companyLimit);
-					console.log(usedCompanyCount);
-				} catch (error) {
-					console.log(error);
-				}
-			};
-			responseFunc();
-		}
-		// }, [companyLimit, usedCompanyCount]);
+	useEffect(() => {
+		const responseFunc = async () => {
+			try {
+				const response = await $axios.get('/v1/account/info');
+
+				setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
+				setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+
+				console.log(companyLimit);
+				console.log(usedCompanyCount);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		if (isAuth) responseFunc();
+
+		// }, [Cookies.get(TOKEN)]);
 	}, [isAuth]);
+	console.log('render header', Cookies.get(TOKEN));
 
 	return (
 		<header className={styles.header}>
