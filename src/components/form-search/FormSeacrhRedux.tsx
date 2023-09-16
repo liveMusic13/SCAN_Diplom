@@ -1,7 +1,9 @@
 import cn from 'clsx';
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { $axios } from '../../api';
+import { actions } from '../../store/search-company/searchCompany.slice.js';
 import Checkbox from '../ui/checkbox/Checkbox';
 import Input from '../ui/input/Input';
 import styles from './FormSeacrh.module.scss';
@@ -24,12 +26,13 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
-	const { searchCompany } = useSelector(state => state);
-	console.log(searchCompany);
-
-	let test = {
-		ids: [],
-	};
+	const riskAndTotalDocuments = useSelector(
+		state => state.searchCompany.riskAndTotalDocuments
+	);
+	// const arrayIdsDocuments = useSelector(
+	// 	state => state.searchCompany.arrayIdsDocuments
+	// );
+	const dispatch = useDispatch();
 
 	const {
 		register,
@@ -40,10 +43,71 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 		mode: 'onChange',
 	});
 
+	const objectSearchForDocuments = async (postObject: object) => {
+		try {
+			const response = await $axios.post('/v1/objectsearch', postObject);
+
+			response.data.items.forEach(elem => {
+				dispatch(actions.arrayIdsDocuments(elem.encodedId));
+			});
+
+			// dispatch(actions.addIdsDocuments(1));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const onSubmit = async () => {
+		const searchContext = {
+			targetSearchEntitiesContext: {
+				targetSearchEntities: [
+					{
+						type: 'company',
+						sparkId: null,
+						entityId: null,
+						inn: Number(getValues('inn')),
+						maxFullness: true,
+						inBusinessNews: null,
+					},
+				],
+				onlyMainRole: true,
+				tonality: getValues('tonality'),
+				onlyWithRiskFactors: true,
+			},
+		};
+		const limit = Number(getValues('limit'));
+		const issueDateInterval = {
+			startDate: getValues('startDate'),
+			endDate: getValues('endDate'),
+		};
+
+		const updateDate = {
+			...riskAndTotalDocuments,
+			searchContext,
+			limit,
+			issueDateInterval,
+		};
+
+		dispatch(actions.addInfoAboutCompany(updateDate));
+		console.log('riskAndTotalDocuments', riskAndTotalDocuments);
+		try {
+			const response = await $axios.post(
+				'/v1/objectsearch/histograms',
+				updateDate
+			);
+
+			console.log('response updateDate', response);
+
+			objectSearchForDocuments(updateDate);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<form
 			className={cn(styles['search__form'], styles.form)}
-			onSubmit={handleSubmit(console.log)}
+			onSubmit={handleSubmit(onSubmit)}
 		>
 			<div className={styles['form__block-input']}>
 				<Input inn={true} register={register}>

@@ -21,49 +21,20 @@ const Header: FC = () => {
 	const [companyLimit, setCompanyLimit] = useState(null);
 	const [usedCompanyCount, setUsedCompanyCount] = useState(null);
 
-	// // const [infoLoaded, setInfoLoaded] = useState(false);
-	// const responseFunc = async () => {
-	// 	try {
-	// 		const response = await $axios.get('/v1/account/info');
-	// 		console.log(response.status);
+	const responseFunc = async () => {
+		try {
+			const response = await $axios.get('/v1/account/info');
 
-	// 		setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
-	// 		setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
-
-	// 		console.log(companyLimit);
-	// 		console.log(usedCompanyCount);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	if (isAuth) {
-	// 		responseFunc();
-	// 	}
-	// 	// }, [companyLimit, usedCompanyCount]);
-	// }, [isAuth, companyLimit, usedCompanyCount]);
-	//////////////////////////////////////////////////////////////////////////////
+			setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
+			setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
-		const responseFunc = async () => {
-			try {
-				const response = await $axios.get('/v1/account/info');
-
-				setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
-				setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
-
-				console.log(companyLimit);
-				console.log(usedCompanyCount);
-			} catch (error) {
-				console.log(error);
-			}
-		};
 		if (isAuth) responseFunc();
-
-		// }, [Cookies.get(TOKEN)]);
 	}, [isAuth]);
-	console.log('render header', Cookies.get(TOKEN));
 
 	return (
 		<header className={styles.header}>
@@ -120,7 +91,6 @@ const Header: FC = () => {
 				<div className={styles['header__block-auth' as const]}>
 					<button className={styles.noneButton}>Зарегистрироваться</button>
 					<div></div>
-					{/* <Button styleForButton={'button-header'}>Войти</Button> */}
 					<button
 						onClick={() => navigate('/auth')}
 						className={styles.button_header}

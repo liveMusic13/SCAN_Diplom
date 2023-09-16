@@ -46,6 +46,7 @@ const FormSeacrh: FC<IStateResultData> = ({
 	});
 
 	const {
+		control,
 		register,
 		handleSubmit,
 		getValues,
@@ -161,6 +162,24 @@ const FormSeacrh: FC<IStateResultData> = ({
 				<Input inn={false} register={register}>
 					Количество документов в выдаче *
 				</Input>
+
+				{/* <Controller
+					control={control}
+					rules={{
+						required: true,
+						minLength: 1,
+						maxLength: 4,
+					}}
+					render={({ field: { onBlur } }) => (
+						<input placeholder='First name' onBlur={onBlur} />
+					)}
+					name='firstName'
+				/> */}
+				{errors.limit && (
+					<div style={{ color: 'red', fontSize: '10px' }}>
+						{errors.limit.message}
+					</div>
+				)}
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *

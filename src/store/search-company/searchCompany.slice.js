@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const searchCompany = createSlice({
-	name: 'searchCompany',
-	initialState: {
+const initialState = {
+	riskAndTotalDocuments: {
 		issueDateInterval: {
 			startDate: '',
 			endDate: '',
@@ -18,12 +17,23 @@ export const searchCompany = createSlice({
 		intervalType: 'month',
 		histogramTypes: ['totalDocuments', 'riskFactors'],
 	},
+	arrayIdsDocuments: [],
+};
+
+export const searchCompany = createSlice({
+	name: 'searchCompany',
+	initialState,
 	reducers: {
 		addInfoAboutCompany: (state, { payload }) => {
-			state = {
-				...state,
-				payload,
+			return {
+				riskAndTotalDocuments: {
+					...state.riskAndTotalDocuments,
+					...payload,
+				},
 			};
+		},
+		addIdsDocuments: (state, { payload }) => {
+			state.arrayIdsDocuments.push(payload);
 		},
 	},
 });
