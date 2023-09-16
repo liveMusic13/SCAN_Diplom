@@ -194,9 +194,14 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
 							{...register(`startDate`, {
-								required: 'Введите корректные данные',
+								required: true,
 							})}
 						/>
+						{errors.startDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.startDate.message}
+							</div>
+						)}
 					</label>
 					<label>
 						<input
@@ -211,9 +216,14 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
 							{...register(`endDate`, {
-								required: 'Введите корректные данные',
+								required: true,
 							})}
 						/>
+						{errors.endDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.endDate.message}
+							</div>
+						)}
 					</label>
 				</div>
 			</div>
