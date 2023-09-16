@@ -32,7 +32,15 @@ const Input: FC<PropsWithChildren<IInputProps>> = ({
 							}),
 					  }
 					: {
-							...register('limit', { minLength: 1, maxLength: 4 }),
+							...register('limit', {
+								required: true,
+								minLength: 1,
+								maxLength: 4,
+								pattern: {
+									value: /^[1-9][0-9]{0,2}$|1000$/,
+									message: 'Please enter numbers from 1 to 1000',
+								},
+							}),
 					  })}
 			/>
 		</div>

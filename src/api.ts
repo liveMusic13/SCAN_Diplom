@@ -8,7 +8,6 @@ export const $axios = axios.create({
 	baseURL: API_URL,
 	headers: {
 		'Content-Type': 'application/json',
-		// Authorization: Cookies.get(TOKEN) ? `Bearer ${Cookies.get(TOKEN)}` : '',
 	},
 });
 
@@ -24,5 +23,3 @@ $axios.interceptors.request.use(
 		return Promise.reject(error);
 	}
 );
-
-console.log('TOKEN', TOKEN, 'number token :', Cookies.get(TOKEN));
