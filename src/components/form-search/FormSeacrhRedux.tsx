@@ -47,11 +47,11 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 		try {
 			const response = await $axios.post('/v1/objectsearch', postObject);
 
-			response.data.items.forEach(elem => {
-				dispatch(actions.arrayIdsDocuments(elem.encodedId));
-			});
+			// response.data.items.forEach(elem => {
+			// 	dispatch(actions.arrayIdsDocuments(elem.encodedId));
+			// });
 
-			// dispatch(actions.addIdsDocuments(1));
+			dispatch(actions.addIdsDocuments(1));
 		} catch (error) {
 			console.log(error);
 		}
