@@ -24,15 +24,23 @@ const Input: FC<PropsWithChildren<IInputProps>> = ({
 				{...(inn
 					? {
 							...register('inn', {
-								required: 'Please fill in the field',
+								required: 'Введите корректные данные',
 								pattern: {
 									value: /^[\d+]{10}$/,
-									message: 'Please fill in the field',
+									message: 'Введите корректные данные',
 								},
 							}),
 					  }
 					: {
-							...register('limit', { minLength: 1, maxLength: 4 }),
+							...register('limit', {
+								required: 'Обязательное поле',
+								minLength: 1,
+								maxLength: 4,
+								pattern: {
+									value: /^[1-9][0-9]{0,2}$|1000$/,
+									message: 'Please enter numbers from 1 to 1000',
+								},
+							}),
 					  })}
 			/>
 		</div>

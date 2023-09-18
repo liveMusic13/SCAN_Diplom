@@ -11,7 +11,6 @@ const Router: FC = () => {
 		<BrowserRouter>
 			<Routes>
 				{routes.map(route => {
-					//TODO: make is AUTH rotes
 					if (route.isAuth && !isAuth) {
 						return false;
 					}

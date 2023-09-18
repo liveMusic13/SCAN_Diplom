@@ -13,8 +13,6 @@ interface IStateResultData {
 	setViewDocuments: Dispatch<SetStateAction<any>>;
 }
 
-//7710137066 INN
-
 const FormSeacrh: FC<IStateResultData> = ({
 	setIsViewSearch,
 	setResultData,
@@ -75,8 +73,6 @@ const FormSeacrh: FC<IStateResultData> = ({
 				test.ids.push(elem.encodedId);
 			});
 			console.log(test);
-
-			// console.log(response.data.items);
 
 			responseDocuments();
 		} catch (error) {
@@ -163,6 +159,11 @@ const FormSeacrh: FC<IStateResultData> = ({
 				<Input inn={false} register={register}>
 					Количество документов в выдаче *
 				</Input>
+				{errors.limit && (
+					<div style={{ color: 'red', fontSize: '10px' }}>
+						{errors.limit.message}
+					</div>
+				)}
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *
@@ -177,9 +178,14 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
 							{...register(`startDate`, {
-								required: 'Введите корректные данные',
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
+						{errors.startDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.startDate.message}
+							</div>
+						)}
 					</label>
 					<label>
 						<input
@@ -194,9 +200,14 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
 							{...register(`endDate`, {
-								required: 'Введите корректные данные',
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
+						{errors.endDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.endDate.message}
+							</div>
+						)}
 					</label>
 				</div>
 			</div>

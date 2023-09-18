@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useAuthPage } from '../../../hooks/useAuthPage';
-import FormSeacrh from '../../form-search/FormSeacrh';
+import FormSeacrhRedux from '../../form-search/FormSeacrhRedux';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
 import styles from './Section.module.scss';
@@ -25,6 +25,8 @@ const Section: FC<ISectionProps> = ({ section }) => {
 
 	const [numberOfPublication, setNumberOfPublication] = useState(10);
 
+	const checkMobilePlatform = window.innerWidth <= 767.98;
+
 	const prevSlide = () => {
 		if (currentIndex > 0) {
 			setCurrentIndex(currentIndex - 1);
@@ -32,7 +34,12 @@ const Section: FC<ISectionProps> = ({ section }) => {
 	};
 
 	const nextSlide = () => {
-		if (currentIndex < resultData.data.data[0].data.length - 3) {
+		if (
+			currentIndex <
+			(checkMobilePlatform
+				? resultData.data.data[0].data.length - 1
+				: resultData.data.data[0].data.length - 3)
+		) {
 			setCurrentIndex(currentIndex + 1);
 		}
 	};
@@ -42,14 +49,20 @@ const Section: FC<ISectionProps> = ({ section }) => {
 		resultData.data.data &&
 		resultData.data.data[0] &&
 		resultData.data.data[0].data
-			? resultData.data.data[0].data.slice(currentIndex, currentIndex + 3)
+			? resultData.data.data[0].data.slice(
+					currentIndex,
+					checkMobilePlatform ? currentIndex + 1 : currentIndex + 3
+			  )
 			: [];
 	const visibleItemsRisk =
 		resultData.data &&
 		resultData.data.data &&
 		resultData.data.data[1] &&
 		resultData.data.data[1].data
-			? resultData.data.data[1].data.slice(currentIndex, currentIndex + 3)
+			? resultData.data.data[1].data.slice(
+					currentIndex,
+					checkMobilePlatform ? currentIndex + 1 : currentIndex + 3
+			  )
 			: [];
 
 	function removeHtmlTags(text) {
@@ -159,6 +172,14 @@ const Section: FC<ISectionProps> = ({ section }) => {
 												}}
 											/>
 										</div>
+										{isAuth && tariff.title[0] === 'Business' ? (
+											<p className={styles['block-tariff__active-tariff']}>
+												Текущий тариф
+											</p>
+										) : (
+											<></>
+										)}
+
 										<div className={cn(styles['block-tariff__price-block'])}>
 											<p>{tariff.discount}</p>
 											<p className={styles['block-tariff__main-price']}>
@@ -181,7 +202,27 @@ const Section: FC<ISectionProps> = ({ section }) => {
 												})}
 											</ul>
 										</div>
-										<a href='#'>Подробнее</a>
+										{isAuth && tariff.title[0] === 'Business' ? (
+											<a
+												className={
+													styles['block-tariff__link-to-personal-area_active']
+												}
+												href='#'
+											>
+												Перейти в личный кабинет
+											</a>
+										) : (
+											<a
+												className={
+													styles[
+														'block-tariff__link-to-personal-area_no-active'
+													]
+												}
+												href='#'
+											>
+												Подробнее
+											</a>
+										)}
 									</div>
 								);
 							})}
@@ -197,7 +238,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 							<h2>
 								Для оформления подписки на тариф, необходимо авторизоваться.
 							</h2>
-							{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 							{window.innerWidth <= 767.98 ? (
 								<div className={styles['auth__block-auth_mobile']}>
 									<img
@@ -259,7 +300,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								alt='img'
 							/>
 						</div>
-						{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 						{window.innerWidth >= 767.98 ? (
 							<div className={styles['auth__block-auth']}>
 								<img
@@ -332,32 +373,12 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Задайте параметры поиска. Чем больше заполните, тем точнее
 										поиск
 									</p>
-									<FormSeacrh
+									<FormSeacrhRedux
 										viewDocuments={viewDocuments}
 										setIsViewSearch={setIsViewSearch}
 										setResultData={setResultData}
 										setViewDocuments={setViewDocuments}
 									/>
-									{/* <FormSeacrhTest
-										setIsViewSearch={setIsViewSearch}
-										setResultData={setResultData}
-									/> */}
-									{resultData.data ? (
-										resultData.data.data[0].data.map(elem => {
-											return (
-												<div
-													key={Math.random()}
-													className={styles['result-block__result']}
-												>
-													<p>{elem.date}</p>
-													<p>{elem.value}</p>
-													<p>0</p>
-												</div>
-											);
-										})
-									) : (
-										<></>
-									)}
 								</div>
 								<div
 									className={cn(
@@ -408,6 +429,31 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										<button onClick={prevSlide}>
 											<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
 										</button>
+										<div className={styles['result-two__block-result_mobile']}>
+											<div className={styles['result-block__name_mobile']}>
+												<p>Период</p>
+												<p>Всего</p>
+												<p>Риски</p>
+											</div>
+											{resultData.data ? (
+												visibleItems.map((item, index) => {
+													const itemRisk = visibleItemsRisk[index];
+
+													return (
+														<div
+															key={Math.random()}
+															className={styles['result-block__result_mobile']}
+														>
+															<p>{formatDate(item.date)}</p>
+															<p>{item.value}</p>
+															<p>{itemRisk.value}</p>
+														</div>
+													);
+												})
+											) : (
+												<></>
+											)}
+										</div>
 										<div
 											className={cn(
 												styles['result-two__block-result'],
@@ -466,7 +512,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 														className={styles['result-three__block-document']}
 													>
 														<div className={styles['result-three__block-date']}>
-															<p>{document.ok.issueDate}</p>
+															<p>{formatDate(document.ok.issueDate)}</p>
 															<p>{document.ok.source.name}</p>
 														</div>
 														<h2>{document.ok.title.text}</h2>

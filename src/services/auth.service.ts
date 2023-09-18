@@ -18,7 +18,6 @@ export const AuthService = {
 				Cookies.set(TOKEN, data.accessToken);
 				setIsAuth(true);
 			}
-			console.log(data);
 		} catch (error) {
 			console.log(error);
 		}
