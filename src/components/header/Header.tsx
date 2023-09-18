@@ -55,7 +55,7 @@ const Header: FC = () => {
 					</li>
 				</ul>
 			</nav>
-			{isAuth && window.innerWidth >= 767.98 ? ( //TODO: MAKE IS INFO USER
+			{isAuth && window.innerWidth >= 767.98 ? (
 				<>
 					<div className={styles.block_company}>
 						<div className={styles.block_usedCompany}>

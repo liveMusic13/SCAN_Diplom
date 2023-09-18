@@ -11,7 +11,6 @@ const BurgerMenu: FC = () => {
 	const navigate = useNavigate();
 
 	const { setIsViewBurger } = useBurger();
-	// TODO: ВЫНЕСТИ В КОМПОНЕНТЫ ЭКРАНА И ПЕРЕДАТЬ ВСЕ ЧЕРЕЗ ПРОПСЫ
 	const { isAuth, setIsAuth } = useAuth();
 
 	const logoutHandler = () => {
@@ -38,8 +37,6 @@ const BurgerMenu: FC = () => {
 		};
 		responseFunc();
 	}
-
-	//
 
 	return (
 		<div className={styles.wrapper}>

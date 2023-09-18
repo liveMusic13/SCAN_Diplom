@@ -13,8 +13,6 @@ interface IStateResultData {
 	setViewDocuments: Dispatch<SetStateAction<any>>;
 }
 
-//7710137066 INN
-
 const FormSeacrh: FC<IStateResultData> = ({
 	setIsViewSearch,
 	setResultData,
@@ -46,7 +44,6 @@ const FormSeacrh: FC<IStateResultData> = ({
 	});
 
 	const {
-		control,
 		register,
 		handleSubmit,
 		getValues,
@@ -162,19 +159,6 @@ const FormSeacrh: FC<IStateResultData> = ({
 				<Input inn={false} register={register}>
 					Количество документов в выдаче *
 				</Input>
-
-				{/* <Controller
-					control={control}
-					rules={{
-						required: true,
-						minLength: 1,
-						maxLength: 4,
-					}}
-					render={({ field: { onBlur } }) => (
-						<input placeholder='First name' onBlur={onBlur} />
-					)}
-					name='firstName'
-				/> */}
 				{errors.limit && (
 					<div style={{ color: 'red', fontSize: '10px' }}>
 						{errors.limit.message}
@@ -194,7 +178,7 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
 							{...register(`startDate`, {
-								required: true,
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
 						{errors.startDate && (
@@ -216,7 +200,7 @@ const FormSeacrh: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
 							{...register(`endDate`, {
-								required: true,
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
 						{errors.endDate && (

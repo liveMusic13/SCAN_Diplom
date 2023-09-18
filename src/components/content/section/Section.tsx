@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useAuthPage } from '../../../hooks/useAuthPage';
-import FormSeacrhRedux from '../../form-search/FormSeacrhRedux';
+import FormSeacrh from '../../form-search/FormSeacrh';
 import Slider from '../../slider/Slider';
 import Button from '../../ui/button/Button';
 import styles from './Section.module.scss';
@@ -238,7 +238,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 							<h2>
 								Для оформления подписки на тариф, необходимо авторизоваться.
 							</h2>
-							{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 							{window.innerWidth <= 767.98 ? (
 								<div className={styles['auth__block-auth_mobile']}>
 									<img
@@ -300,7 +300,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								alt='img'
 							/>
 						</div>
-						{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 						{window.innerWidth >= 767.98 ? (
 							<div className={styles['auth__block-auth']}>
 								<img
@@ -373,19 +373,13 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Задайте параметры поиска. Чем больше заполните, тем точнее
 										поиск
 									</p>
-									{/* <FormSeacrh
-										viewDocuments={viewDocuments}
-										setIsViewSearch={setIsViewSearch}
-										setResultData={setResultData}
-										setViewDocuments={setViewDocuments}
-									/> */}
-									<FormSeacrhRedux
+									<FormSeacrh
 										viewDocuments={viewDocuments}
 										setIsViewSearch={setIsViewSearch}
 										setResultData={setResultData}
 										setViewDocuments={setViewDocuments}
 									/>
-									{resultData.data ? (
+									{/* {resultData.data ? (
 										resultData.data.data[0].data.map(elem => {
 											return (
 												<div
@@ -400,7 +394,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										})
 									) : (
 										<></>
-									)}
+									)} */}
 								</div>
 								<div
 									className={cn(
