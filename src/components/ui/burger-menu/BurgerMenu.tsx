@@ -29,8 +29,6 @@ const BurgerMenu: FC = () => {
 
 				setCompanyLimit(response.data.eventFiltersInfo.companyLimit);
 				setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount);
-				console.log(companyLimit);
-				console.log(usedCompanyCount);
 			} catch (error) {
 				console.log(error);
 			}
