@@ -8,8 +8,6 @@ interface ICheckboxProps {
 	register: UseFormRegister<FieldValues>;
 }
 
-//TODO: MAKE VALUE TO RESPONSE IN FORM
-
 const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({
 	children,
 	id,
@@ -30,7 +28,6 @@ const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({
 				})}
 				onClick={e => {
 					e.preventDefault();
-					// handleChange();
 					setCheckOn(!checkOn);
 				}}
 			>

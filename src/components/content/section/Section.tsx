@@ -238,7 +238,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 							<h2>
 								Для оформления подписки на тариф, необходимо авторизоваться.
 							</h2>
-							{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 							{window.innerWidth <= 767.98 ? (
 								<div className={styles['auth__block-auth_mobile']}>
 									<img
@@ -300,7 +300,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								alt='img'
 							/>
 						</div>
-						{/* TODO: REPLACE VALIDATION/ USE REACT HOOK FORM*/}
+
 						{window.innerWidth >= 767.98 ? (
 							<div className={styles['auth__block-auth']}>
 								<img
@@ -379,13 +379,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										setResultData={setResultData}
 										setViewDocuments={setViewDocuments}
 									/>
-									{/* <FormSeacrhRedux
-										viewDocuments={viewDocuments}
-										setIsViewSearch={setIsViewSearch}
-										setResultData={setResultData}
-										setViewDocuments={setViewDocuments}
-									/> */}
-									{resultData.data ? (
+									{/* {resultData.data ? (
 										resultData.data.data[0].data.map(elem => {
 											return (
 												<div
@@ -400,7 +394,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										})
 									) : (
 										<></>
-									)}
+									)} */}
 								</div>
 								<div
 									className={cn(
