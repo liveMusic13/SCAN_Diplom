@@ -90,7 +90,8 @@ const FormSeacrh: FC<IStateResultData> = ({
 					},
 				],
 				onlyMainRole: true,
-				tonality: getValues('tonality'),
+				// tonality: getValues('tonality'), с рабочим бэкендом эта строчка
+				tonality: 'any', // а эта с нерабочим
 				onlyWithRiskFactors: true,
 			},
 		};
