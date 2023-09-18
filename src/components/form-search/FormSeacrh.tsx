@@ -57,8 +57,6 @@ const FormSeacrh: FC<IStateResultData> = ({
 			const response = await $axios.post('/v1/documents', test);
 
 			setViewDocuments(response.data);
-			console.log('request', response);
-			console.log('state documents', viewDocuments);
 		} catch (error) {
 			console.log(error);
 		}
@@ -67,12 +65,10 @@ const FormSeacrh: FC<IStateResultData> = ({
 	const objectSearchForDocuments = async (postObject: object) => {
 		try {
 			const response = await $axios.post('/v1/objectsearch', postObject);
-			console.log(response);
 
 			response.data.items.forEach(elem => {
 				test.ids.push(elem.encodedId);
 			});
-			console.log(test);
 
 			responseDocuments();
 		} catch (error) {

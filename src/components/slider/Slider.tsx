@@ -12,10 +12,8 @@ const Slider: FC = () => {
 			setViewDataTab(prevState => {
 				const newState = prevState.map(elem => {
 					if (elem > 0) {
-						console.log(elem);
 						return elem - 1;
 					} else {
-						console.log(elem);
 						return (elem = data.length - 1);
 					}
 				});
@@ -25,10 +23,8 @@ const Slider: FC = () => {
 			setViewDataMobile(prevState => {
 				const newState = prevState.map(elem => {
 					if (elem > 0) {
-						console.log(elem);
 						return elem - 1;
 					} else {
-						console.log(elem);
 						return (elem = data.length - 1);
 					}
 				});
@@ -38,10 +34,8 @@ const Slider: FC = () => {
 			setViewData(prevState => {
 				const newState = prevState.map(elem => {
 					if (elem > 0) {
-						console.log(elem);
 						return elem - 1;
 					} else {
-						console.log(elem);
 						return (elem = data.length - 1);
 					}
 				});

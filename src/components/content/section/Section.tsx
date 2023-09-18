@@ -26,6 +26,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 	const [numberOfPublication, setNumberOfPublication] = useState(10);
 
 	const checkMobilePlatform = window.innerWidth <= 767.98;
+	const checkMiddleScreenResolution = window.innerWidth <= 1200;
 
 	const prevSlide = () => {
 		if (currentIndex > 0) {
@@ -51,7 +52,9 @@ const Section: FC<ISectionProps> = ({ section }) => {
 		resultData.data.data[0].data
 			? resultData.data.data[0].data.slice(
 					currentIndex,
-					checkMobilePlatform ? currentIndex + 1 : currentIndex + 3
+					checkMobilePlatform
+						? currentIndex + 1
+						: currentIndex + (checkMiddleScreenResolution ? 3 : 8)
 			  )
 			: [];
 	const visibleItemsRisk =
@@ -61,7 +64,9 @@ const Section: FC<ISectionProps> = ({ section }) => {
 		resultData.data.data[1].data
 			? resultData.data.data[1].data.slice(
 					currentIndex,
-					checkMobilePlatform ? currentIndex + 1 : currentIndex + 3
+					checkMobilePlatform
+						? currentIndex + 1
+						: currentIndex + (checkMiddleScreenResolution ? 3 : 8)
 			  )
 			: [];
 
@@ -373,6 +378,12 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Задайте параметры поиска. Чем больше заполните, тем точнее
 										поиск
 									</p>
+									{/* <FormSeacrh
+										viewDocuments={viewDocuments}
+										setIsViewSearch={setIsViewSearch}
+										setResultData={setResultData}
+										setViewDocuments={setViewDocuments}
+									/> */}
 									<FormSeacrhRedux
 										viewDocuments={viewDocuments}
 										setIsViewSearch={setIsViewSearch}
@@ -426,9 +437,28 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Найдено 4 221 вариантов
 									</p>
 									<div className={styles['result-two__wrapper-result']}>
-										<button onClick={prevSlide}>
-											<img src='/images/icon/arrows/arrow_left.svg' alt='img' />
-										</button>
+										{checkMobilePlatform || checkMiddleScreenResolution ? (
+											<button onClick={prevSlide}>
+												<img
+													src='/images/icon/arrows/arrow_left.svg'
+													alt='img'
+												/>
+											</button>
+										) : (
+											<button
+												onClick={
+													resultData.data.data[0].data.length > 9
+														? prevSlide
+														: undefined
+												}
+											>
+												<img
+													src='/images/icon/arrows/arrow_left.svg'
+													alt='img'
+												/>
+											</button>
+										)}
+
 										<div className={styles['result-two__block-result_mobile']}>
 											<div className={styles['result-block__name_mobile']}>
 												<p>Период</p>
@@ -484,12 +514,28 @@ const Section: FC<ISectionProps> = ({ section }) => {
 												<></>
 											)}
 										</div>
-										<button onClick={nextSlide}>
-											<img
-												src='/images/icon/arrows/arrow_right.svg'
-												alt='img'
-											/>
-										</button>
+
+										{checkMobilePlatform || checkMiddleScreenResolution ? (
+											<button onClick={nextSlide}>
+												<img
+													src='/images/icon/arrows/arrow_right.svg'
+													alt='img'
+												/>
+											</button>
+										) : (
+											<button
+												onClick={
+													resultData.data.data[0].data.length > 9
+														? nextSlide
+														: undefined
+												}
+											>
+												<img
+													src='/images/icon/arrows/arrow_right.svg'
+													alt='img'
+												/>
+											</button>
+										)}
 									</div>
 								</section>
 								<section className={cn(styles['result-three'])}>
