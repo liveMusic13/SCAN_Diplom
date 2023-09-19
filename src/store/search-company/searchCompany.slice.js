@@ -17,7 +17,7 @@ const initialState = {
 		intervalType: 'month',
 		histogramTypes: ['totalDocuments', 'riskFactors'],
 	},
-	arrayIdsDocuments: [],
+	arrayViewDocuments: [],
 };
 
 export const searchCompany = createSlice({
@@ -26,14 +26,18 @@ export const searchCompany = createSlice({
 	reducers: {
 		addInfoAboutCompany: (state, { payload }) => {
 			return {
+				...state,
 				riskAndTotalDocuments: {
 					...state.riskAndTotalDocuments,
 					...payload,
 				},
 			};
 		},
-		addIdsDocuments: (state, { payload }) => {
-			state.arrayIdsDocuments.push(payload);
+		viewDocuments: (state, { payload }) => {
+			return {
+				...state,
+				arrayViewDocuments: payload,
+			};
 		},
 	},
 });

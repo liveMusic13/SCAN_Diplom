@@ -1,5 +1,6 @@
 import cn from 'clsx';
 import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import { useAuthPage } from '../../../hooks/useAuthPage';
@@ -24,6 +25,8 @@ const Section: FC<ISectionProps> = ({ section }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const [numberOfPublication, setNumberOfPublication] = useState(10);
+
+	const { arrayViewDocuments } = useSelector(state => state);
 
 	const checkMobilePlatform = window.innerWidth <= 767.98;
 	const checkMiddleScreenResolution = window.innerWidth <= 1200;
@@ -389,6 +392,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										setIsViewSearch={setIsViewSearch}
 										setResultData={setResultData}
 										setViewDocuments={setViewDocuments}
+										resultData={resultData}
 									/>
 								</div>
 								<div
@@ -447,8 +451,10 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										) : (
 											<button
 												onClick={
-													resultData.data.data[0].data.length > 9
-														? prevSlide
+													resultData.data
+														? resultData.data.data[0].data.length > 9
+															? prevSlide
+															: undefined
 														: undefined
 												}
 											>
@@ -525,8 +531,10 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										) : (
 											<button
 												onClick={
-													resultData.data.data[0].data.length > 9
-														? nextSlide
+													resultData.data
+														? resultData.data.data[0].data.length > 9
+															? nextSlide
+															: undefined
 														: undefined
 												}
 											>
@@ -543,49 +551,54 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										Список документов
 									</h2>
 									<div className={styles['result-three__wrapper-document']}>
-										{viewDocuments.map((document, index) => {
-											const xmlString = document.ok.content.markup;
-											const parser = new DOMParser();
-											const xmlDoc = parser.parseFromString(
-												xmlString,
-												'text/xml'
-											);
-											const xmlText = xmlDoc.documentElement.textContent;
-											if (index < numberOfPublication) {
-												return (
-													<div
-														key={document.ok.id}
-														className={styles['result-three__block-document']}
-													>
-														<div className={styles['result-three__block-date']}>
-															<p>{formatDate(document.ok.issueDate)}</p>
-															<p>{document.ok.source.name}</p>
-														</div>
-														<h2>{document.ok.title.text}</h2>
-														<p>
-															{document.ok.attributes.isTechNews
-																? 'Технические новости'
-																: document.ok.attributes.isDigest
-																? 'Сводка новостей'
-																: document.ok.attributes.isAnnouncement
-																? 'Анонс'
-																: 'Нейтральная категория'}
-														</p>
-														<div className={styles['result-three__block-info']}>
-															<img src='/images/test.png' alt='test' />
-															<p>{removeHtmlTags(xmlText)}</p>
-														</div>
-														<div className={styles['result-three__title']}>
-															<a href={document.ok.url}>Читать в источнике</a>
-															<p>{document.ok.attributes.wordCount} слов</p>
-														</div>
-													</div>
+										{arrayViewDocuments.ok &&
+											arrayViewDocuments.map((document, index) => {
+												const xmlString = document.ok.content.markup;
+												const parser = new DOMParser();
+												const xmlDoc = parser.parseFromString(
+													xmlString,
+													'text/xml'
 												);
-											}
-										})}
+												const xmlText = xmlDoc.documentElement.textContent;
+												if (index < numberOfPublication) {
+													return (
+														<div
+															key={document.ok.id}
+															className={styles['result-three__block-document']}
+														>
+															<div
+																className={styles['result-three__block-date']}
+															>
+																<p>{formatDate(document.ok.issueDate)}</p>
+																<p>{document.ok.source.name}</p>
+															</div>
+															<h2>{document.ok.title.text}</h2>
+															<p>
+																{document.ok.attributes.isTechNews
+																	? 'Технические новости'
+																	: document.ok.attributes.isDigest
+																	? 'Сводка новостей'
+																	: document.ok.attributes.isAnnouncement
+																	? 'Анонс'
+																	: 'Нейтральная категория'}
+															</p>
+															<div
+																className={styles['result-three__block-info']}
+															>
+																<img src='/images/test.png' alt='test' />
+																<p>{removeHtmlTags(xmlText)}</p>
+															</div>
+															<div className={styles['result-three__title']}>
+																<a href={document.ok.url}>Читать в источнике</a>
+																<p>{document.ok.attributes.wordCount} слов</p>
+															</div>
+														</div>
+													);
+												}
+											})}
 									</div>
 
-									{numberOfPublication <= viewDocuments.length ? (
+									{numberOfPublication <= arrayViewDocuments.length ? (
 										<button
 											className={styles['result-three__button-show-more']}
 											onClick={() =>

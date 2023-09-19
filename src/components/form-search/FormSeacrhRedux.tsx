@@ -13,6 +13,7 @@ interface IStateResultData {
 	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
 	viewDocuments: object;
 	setViewDocuments: Dispatch<SetStateAction<any>>;
+	resultData: any;
 }
 
 const FormSeacrhRedux: FC<IStateResultData> = ({
@@ -20,6 +21,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 	setResultData,
 	viewDocuments,
 	setViewDocuments,
+	resultData,
 }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
@@ -27,6 +29,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 	const riskAndTotalDocuments = useSelector(
 		state => state.searchCompany.riskAndTotalDocuments
 	);
+
 	// const arrayIdsDocuments = useSelector(
 	// 	state => state.searchCompany.arrayIdsDocuments
 	// );
@@ -41,15 +44,28 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 		mode: 'onChange',
 	});
 
+	const responseDocuments = async dataIds => {
+		try {
+			const response = await $axios.post('/v1/documents', dataIds);
+
+			dispatch(actions.viewDocuments(response.data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const objectSearchForDocuments = async (postObject: object) => {
 		try {
 			const response = await $axios.post('/v1/objectsearch', postObject);
+			let arrayIds = {
+				ids: [],
+			};
 
-			// response.data.items.forEach(elem => {
-			// 	dispatch(actions.arrayIdsDocuments(elem.encodedId));
-			// });
+			await response.data.items.forEach(elem => {
+				arrayIds.ids.push(elem.encodedId);
+			});
 
-			dispatch(actions.addIdsDocuments(1));
+			await responseDocuments(arrayIds);
 		} catch (error) {
 			console.log(error);
 		}
@@ -87,7 +103,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 		};
 
 		dispatch(actions.addInfoAboutCompany(updateDate));
-		console.log('riskAndTotalDocuments', riskAndTotalDocuments);
+
 		try {
 			const response = await $axios.post(
 				'/v1/objectsearch/histograms',
@@ -95,8 +111,10 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 			);
 
 			console.log('response updateDate', response);
-
-			objectSearchForDocuments(updateDate);
+			setResultData(updateDate);
+			console.log('resultData', response);
+			setIsViewSearch(false);
+			await objectSearchForDocuments(updateDate);
 		} catch (error) {
 			console.log(error);
 		}
