@@ -419,199 +419,200 @@ const Section: FC<ISectionProps> = ({ section }) => {
 								</div>
 							</div>
 						) : (
-							<div className={styles.ofAConditionWithoutAMentor__result}>
-								<section className={cn(styles['result-one'])}>
-									<div className={styles['result__block-content']}>
-										<h2 className={styles['result-one__title']}>
-											Ищем. Скоро будут результаты
-										</h2>
-										<p className={styles['result-one__paragraph']}>
-											Поиск может занять некоторое время, просим сохранять
-											терпение.
-										</p>
-									</div>
-									<img
-										src='/images/background-images/result/woman-target.png'
-										alt='img'
-									/>
-								</section>
-								<section className={cn(styles['result-two'])}>
-									<h2 className={styles['result-two__title']}>Общая сводка</h2>
-									<p className={styles['result-two__paragraph']}>
-										Найдено 4 221 вариантов
-									</p>
-									<div className={styles['result-two__wrapper-result']}>
-										{checkMobilePlatform || checkMiddleScreenResolution ? (
-											<button onClick={prevSlide}>
-												<img
-													src='/images/icon/arrows/arrow_left.svg'
-													alt='img'
-												/>
-											</button>
-										) : (
-											<button
-												onClick={
-													resultData.data
-														? resultData.data.data[0].data.length > 9
-															? prevSlide
-															: undefined
-														: undefined
-												}
-											>
-												<img
-													src='/images/icon/arrows/arrow_left.svg'
-													alt='img'
-												/>
-											</button>
-										)}
+							// <div className={styles.ofAConditionWithoutAMentor__result}>
+							// 	<section className={cn(styles['result-one'])}>
+							// 		<div className={styles['result__block-content']}>
+							// 			<h2 className={styles['result-one__title']}>
+							// 				Ищем. Скоро будут результаты
+							// 			</h2>
+							// 			<p className={styles['result-one__paragraph']}>
+							// 				Поиск может занять некоторое время, просим сохранять
+							// 				терпение.
+							// 			</p>
+							// 		</div>
+							// 		<img
+							// 			src='/images/background-images/result/woman-target.png'
+							// 			alt='img'
+							// 		/>
+							// 	</section>
+							// 	<section className={cn(styles['result-two'])}>
+							// 		<h2 className={styles['result-two__title']}>Общая сводка</h2>
+							// 		<p className={styles['result-two__paragraph']}>
+							// 			Найдено 4 221 вариантов
+							// 		</p>
+							// 		<div className={styles['result-two__wrapper-result']}>
+							// 			{checkMobilePlatform || checkMiddleScreenResolution ? (
+							// 				<button onClick={prevSlide}>
+							// 					<img
+							// 						src='/images/icon/arrows/arrow_left.svg'
+							// 						alt='img'
+							// 					/>
+							// 				</button>
+							// 			) : (
+							// 				<button
+							// 					onClick={
+							// 						resultData.data
+							// 							? resultData.data.data[0].data.length > 9
+							// 								? prevSlide
+							// 								: undefined
+							// 							: undefined
+							// 					}
+							// 				>
+							// 					<img
+							// 						src='/images/icon/arrows/arrow_left.svg'
+							// 						alt='img'
+							// 					/>
+							// 				</button>
+							// 			)}
 
-										<div className={styles['result-two__block-result_mobile']}>
-											<div className={styles['result-block__name_mobile']}>
-												<p>Период</p>
-												<p>Всего</p>
-												<p>Риски</p>
-											</div>
-											{resultData.data ? (
-												visibleItems.map((item, index) => {
-													const itemRisk = visibleItemsRisk[index];
+							// 			<div className={styles['result-two__block-result_mobile']}>
+							// 				<div className={styles['result-block__name_mobile']}>
+							// 					<p>Период</p>
+							// 					<p>Всего</p>
+							// 					<p>Риски</p>
+							// 				</div>
+							// 				{resultData.data ? (
+							// 					visibleItems.map((item, index) => {
+							// 						const itemRisk = visibleItemsRisk[index];
 
-													return (
-														<div
-															key={Math.random()}
-															className={styles['result-block__result_mobile']}
-														>
-															<p>{formatDate(item.date)}</p>
-															<p>{item.value}</p>
-															<p>{itemRisk.value}</p>
-														</div>
-													);
-												})
-											) : (
-												<></>
-											)}
-										</div>
-										<div
-											className={cn(
-												styles['result-two__block-result'],
-												styles['result-block']
-											)}
-										>
-											<div className={styles['result-block__name']}>
-												<p>Период</p>
-												<p>Всего</p>
-												<p>Риски</p>
-											</div>
-											{resultData.data ? (
-												visibleItems.map((item, index) => {
-													const itemRisk = visibleItemsRisk[index];
+							// 						return (
+							// 							<div
+							// 								key={Math.random()}
+							// 								className={styles['result-block__result_mobile']}
+							// 							>
+							// 								<p>{formatDate(item.date)}</p>
+							// 								<p>{item.value}</p>
+							// 								<p>{itemRisk.value}</p>
+							// 							</div>
+							// 						);
+							// 					})
+							// 				) : (
+							// 					<></>
+							// 				)}
+							// 			</div>
+							// 			<div
+							// 				className={cn(
+							// 					styles['result-two__block-result'],
+							// 					styles['result-block']
+							// 				)}
+							// 			>
+							// 				<div className={styles['result-block__name']}>
+							// 					<p>Период</p>
+							// 					<p>Всего</p>
+							// 					<p>Риски</p>
+							// 				</div>
+							// 				{resultData.data ? (
+							// 					visibleItems.map((item, index) => {
+							// 						const itemRisk = visibleItemsRisk[index];
 
-													return (
-														<div
-															key={Math.random()}
-															className={styles['result-block__result']}
-														>
-															<p>{formatDate(item.date)}</p>
-															<p>{item.value}</p>
-															<p>{itemRisk.value}</p>
-														</div>
-													);
-												})
-											) : (
-												<></>
-											)}
-										</div>
+							// 						return (
+							// 							<div
+							// 								key={Math.random()}
+							// 								className={styles['result-block__result']}
+							// 							>
+							// 								<p>{formatDate(item.date)}</p>
+							// 								<p>{item.value}</p>
+							// 								<p>{itemRisk.value}</p>
+							// 							</div>
+							// 						);
+							// 					})
+							// 				) : (
+							// 					<></>
+							// 				)}
+							// 			</div>
 
-										{checkMobilePlatform || checkMiddleScreenResolution ? (
-											<button onClick={nextSlide}>
-												<img
-													src='/images/icon/arrows/arrow_right.svg'
-													alt='img'
-												/>
-											</button>
-										) : (
-											<button
-												onClick={
-													resultData.data
-														? resultData.data.data[0].data.length > 9
-															? nextSlide
-															: undefined
-														: undefined
-												}
-											>
-												<img
-													src='/images/icon/arrows/arrow_right.svg'
-													alt='img'
-												/>
-											</button>
-										)}
-									</div>
-								</section>
-								<section className={cn(styles['result-three'])}>
-									<h2 className={styles['result-three__title']}>
-										Список документов
-									</h2>
-									<div className={styles['result-three__wrapper-document']}>
-										{arrayViewDocuments.ok &&
-											arrayViewDocuments.map((document, index) => {
-												const xmlString = document.ok.content.markup;
-												const parser = new DOMParser();
-												const xmlDoc = parser.parseFromString(
-													xmlString,
-													'text/xml'
-												);
-												const xmlText = xmlDoc.documentElement.textContent;
-												if (index < numberOfPublication) {
-													return (
-														<div
-															key={document.ok.id}
-															className={styles['result-three__block-document']}
-														>
-															<div
-																className={styles['result-three__block-date']}
-															>
-																<p>{formatDate(document.ok.issueDate)}</p>
-																<p>{document.ok.source.name}</p>
-															</div>
-															<h2>{document.ok.title.text}</h2>
-															<p>
-																{document.ok.attributes.isTechNews
-																	? 'Технические новости'
-																	: document.ok.attributes.isDigest
-																	? 'Сводка новостей'
-																	: document.ok.attributes.isAnnouncement
-																	? 'Анонс'
-																	: 'Нейтральная категория'}
-															</p>
-															<div
-																className={styles['result-three__block-info']}
-															>
-																<img src='/images/test.png' alt='test' />
-																<p>{removeHtmlTags(xmlText)}</p>
-															</div>
-															<div className={styles['result-three__title']}>
-																<a href={document.ok.url}>Читать в источнике</a>
-																<p>{document.ok.attributes.wordCount} слов</p>
-															</div>
-														</div>
-													);
-												}
-											})}
-									</div>
+							// 			{checkMobilePlatform || checkMiddleScreenResolution ? (
+							// 				<button onClick={nextSlide}>
+							// 					<img
+							// 						src='/images/icon/arrows/arrow_right.svg'
+							// 						alt='img'
+							// 					/>
+							// 				</button>
+							// 			) : (
+							// 				<button
+							// 					onClick={
+							// 						resultData.data
+							// 							? resultData.data.data[0].data.length > 9
+							// 								? nextSlide
+							// 								: undefined
+							// 							: undefined
+							// 					}
+							// 				>
+							// 					<img
+							// 						src='/images/icon/arrows/arrow_right.svg'
+							// 						alt='img'
+							// 					/>
+							// 				</button>
+							// 			)}
+							// 		</div>
+							// 	</section>
+							// 	<section className={cn(styles['result-three'])}>
+							// 		<h2 className={styles['result-three__title']}>
+							// 			Список документов
+							// 		</h2>
+							// 		<div className={styles['result-three__wrapper-document']}>
+							// 			{arrayViewDocuments.ok &&
+							// 				arrayViewDocuments.map((document, index) => {
+							// 					const xmlString = document.ok.content.markup;
+							// 					const parser = new DOMParser();
+							// 					const xmlDoc = parser.parseFromString(
+							// 						xmlString,
+							// 						'text/xml'
+							// 					);
+							// 					const xmlText = xmlDoc.documentElement.textContent;
+							// 					if (index < numberOfPublication) {
+							// 						return (
+							// 							<div
+							// 								key={document.ok.id}
+							// 								className={styles['result-three__block-document']}
+							// 							>
+							// 								<div
+							// 									className={styles['result-three__block-date']}
+							// 								>
+							// 									<p>{formatDate(document.ok.issueDate)}</p>
+							// 									<p>{document.ok.source.name}</p>
+							// 								</div>
+							// 								<h2>{document.ok.title.text}</h2>
+							// 								<p>
+							// 									{document.ok.attributes.isTechNews
+							// 										? 'Технические новости'
+							// 										: document.ok.attributes.isDigest
+							// 										? 'Сводка новостей'
+							// 										: document.ok.attributes.isAnnouncement
+							// 										? 'Анонс'
+							// 										: 'Нейтральная категория'}
+							// 								</p>
+							// 								<div
+							// 									className={styles['result-three__block-info']}
+							// 								>
+							// 									<img src='/images/test.png' alt='test' />
+							// 									<p>{removeHtmlTags(xmlText)}</p>
+							// 								</div>
+							// 								<div className={styles['result-three__title']}>
+							// 									<a href={document.ok.url}>Читать в источнике</a>
+							// 									<p>{document.ok.attributes.wordCount} слов</p>
+							// 								</div>
+							// 							</div>
+							// 						);
+							// 					}
+							// 				})}
+							// 		</div>
 
-									{numberOfPublication <= arrayViewDocuments.length ? (
-										<button
-											className={styles['result-three__button-show-more']}
-											onClick={() =>
-												setNumberOfPublication(prevValue => prevValue + 10)
-											}
-										>
-											Показать больше
-										</button>
-									) : (
-										<></>
-									)}
-								</section>
-							</div>
+							// 		{numberOfPublication <= arrayViewDocuments.length ? (
+							// 			<button
+							// 				className={styles['result-three__button-show-more']}
+							// 				onClick={() =>
+							// 					setNumberOfPublication(prevValue => prevValue + 10)
+							// 				}
+							// 			>
+							// 				Показать больше
+							// 			</button>
+							// 		) : (
+							// 			<></>
+							// 		)}
+							// 	</section>
+							// </div>
+							<div>{resultData.data.data[0].data[0].data}</div>
 						)}
 					</section>
 				)

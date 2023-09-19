@@ -47,7 +47,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 	const responseDocuments = async dataIds => {
 		try {
 			const response = await $axios.post('/v1/documents', dataIds);
-
+			console.log('resultData3', resultData);
 			dispatch(actions.viewDocuments(response.data));
 		} catch (error) {
 			console.log(error);
@@ -64,7 +64,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 			await response.data.items.forEach(elem => {
 				arrayIds.ids.push(elem.encodedId);
 			});
-
+			console.log('resultData 2', resultData);
 			await responseDocuments(arrayIds);
 		} catch (error) {
 			console.log(error);
@@ -111,8 +111,9 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 			);
 
 			console.log('response updateDate', response);
-			setResultData(updateDate);
-			console.log('resultData', response);
+
+			console.log('resultData', resultData);
+			setResultData(response);
 			setIsViewSearch(false);
 			await objectSearchForDocuments(updateDate);
 		} catch (error) {
