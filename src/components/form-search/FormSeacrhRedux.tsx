@@ -111,10 +111,10 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 			);
 
 			console.log('response updateDate', response);
-
-			console.log('resultData', resultData);
+			console.log('before resultData', resultData);
 			setResultData(response);
 			setIsViewSearch(false);
+			console.log('resultData', resultData);
 			await objectSearchForDocuments(updateDate);
 		} catch (error) {
 			console.log(error);
