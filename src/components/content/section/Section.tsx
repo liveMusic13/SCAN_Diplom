@@ -379,7 +379,6 @@ const Section: FC<ISectionProps> = ({ section }) => {
 										поиск
 									</p>
 									<FormSeacrh
-										viewDocuments={viewDocuments}
 										setIsViewSearch={setIsViewSearch}
 										setResultData={setResultData}
 										setViewDocuments={setViewDocuments}

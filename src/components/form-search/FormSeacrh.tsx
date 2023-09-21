@@ -9,14 +9,12 @@ import styles from './FormSeacrh.module.scss';
 interface IStateResultData {
 	setResultData: Dispatch<SetStateAction<object>>;
 	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
-	viewDocuments: object;
 	setViewDocuments: Dispatch<SetStateAction<any>>;
 }
 
 const FormSeacrh: FC<IStateResultData> = ({
 	setIsViewSearch,
 	setResultData,
-	viewDocuments,
 	setViewDocuments,
 }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
