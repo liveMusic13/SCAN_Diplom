@@ -17,6 +17,7 @@ const initialState = {
 		intervalType: 'month',
 		histogramTypes: ['totalDocuments', 'riskFactors'],
 	},
+	searchResultData: {},
 	arrayViewDocuments: [],
 };
 
@@ -31,6 +32,12 @@ export const searchCompany = createSlice({
 					...state.riskAndTotalDocuments,
 					...payload,
 				},
+			};
+		},
+		addSearchResultData: (state, { payload }) => {
+			return {
+				...state,
+				searchResultData: payload,
 			};
 		},
 		viewDocuments: (state, { payload }) => {

@@ -239,5 +239,5 @@ const FormSeacrh: FC<IStateResultData> = ({
 		</form>
 	);
 };
-
+debugger;
 export default FormSeacrh;

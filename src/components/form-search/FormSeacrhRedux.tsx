@@ -9,20 +9,10 @@ import Input from '../ui/input/Input';
 import styles from './FormSeacrh.module.scss';
 
 interface IStateResultData {
-	setResultData: Dispatch<SetStateAction<object>>;
 	setIsViewSearch: Dispatch<SetStateAction<boolean>>;
-	viewDocuments: object;
-	setViewDocuments: Dispatch<SetStateAction<any>>;
-	resultData: any;
 }
 
-const FormSeacrhRedux: FC<IStateResultData> = ({
-	setIsViewSearch,
-	setResultData,
-	viewDocuments,
-	setViewDocuments,
-	resultData,
-}) => {
+const FormSeacrhRedux: FC<IStateResultData> = ({ setIsViewSearch }) => {
 	const [colorDateStart, setColorDateStart] = useState(0);
 	const [colorDateEnd, setColorDateEnd] = useState(0);
 
@@ -30,9 +20,6 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 		state => state.searchCompany.riskAndTotalDocuments
 	);
 
-	// const arrayIdsDocuments = useSelector(
-	// 	state => state.searchCompany.arrayIdsDocuments
-	// );
 	const dispatch = useDispatch();
 
 	const {
@@ -47,7 +34,7 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 	const responseDocuments = async dataIds => {
 		try {
 			const response = await $axios.post('/v1/documents', dataIds);
-			console.log('resultData3', resultData);
+
 			dispatch(actions.viewDocuments(response.data));
 		} catch (error) {
 			console.log(error);
@@ -64,8 +51,8 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 			await response.data.items.forEach(elem => {
 				arrayIds.ids.push(elem.encodedId);
 			});
-			console.log('resultData 2', resultData);
-			await responseDocuments(arrayIds);
+
+			responseDocuments(arrayIds);
 		} catch (error) {
 			console.log(error);
 		}
@@ -85,7 +72,8 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 					},
 				],
 				onlyMainRole: true,
-				tonality: getValues('tonality'),
+				// tonality: getValues('tonality'), с рабочим бэкендом эта строчка
+				tonality: 'any', // а эта с нерабочим
 				onlyWithRiskFactors: true,
 			},
 		};
@@ -109,12 +97,10 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 				'/v1/objectsearch/histograms',
 				updateDate
 			);
+			console.log(response);
+			dispatch(actions.addSearchResultData(response.data));
+			// setIsViewSearch(false);
 
-			console.log('response updateDate', response);
-			console.log('before resultData', resultData);
-			setResultData(response);
-			setIsViewSearch(false);
-			console.log('resultData', resultData);
 			await objectSearchForDocuments(updateDate);
 		} catch (error) {
 			console.log(error);
@@ -154,6 +140,11 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 				<Input inn={false} register={register}>
 					Количество документов в выдаче *
 				</Input>
+				{errors.limit && (
+					<div style={{ color: 'red', fontSize: '10px' }}>
+						{errors.limit.message}
+					</div>
+				)}
 				<div className={styles['form__block-data-input']}>
 					<label>
 						Диапазон поиска *
@@ -168,9 +159,14 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateStart})`,
 							}}
 							{...register(`startDate`, {
-								required: 'Введите корректные данные',
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
+						{errors.startDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.startDate.message}
+							</div>
+						)}
 					</label>
 					<label>
 						<input
@@ -185,9 +181,14 @@ const FormSeacrhRedux: FC<IStateResultData> = ({
 								color: `rgba(0, 0, 0, ${colorDateEnd})`,
 							}}
 							{...register(`endDate`, {
-								required: 'Введите корректные данные',
+								required: 'Поле обязательно для заполнения',
 							})}
 						/>
+						{errors.endDate && (
+							<div style={{ color: 'red', fontSize: '10px' }}>
+								{errors.endDate.message}
+							</div>
+						)}
 					</label>
 				</div>
 			</div>
