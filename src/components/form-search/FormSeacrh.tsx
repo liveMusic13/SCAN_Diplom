@@ -17,8 +17,8 @@ const FormSeacrh: FC<IStateResultData> = ({
 	setResultData,
 	setViewDocuments,
 }) => {
-	const [colorDateStart, setColorDateStart] = useState(0);
-	const [colorDateEnd, setColorDateEnd] = useState(0);
+	const [colorDateStart, setColorDateStart] = useState<number>(0);
+	const [colorDateEnd, setColorDateEnd] = useState<number>(0);
 
 	let test = {
 		ids: [],

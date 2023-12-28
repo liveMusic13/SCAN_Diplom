@@ -18,10 +18,10 @@ const Section: FC<ISectionProps> = ({ section }) => {
 	const navigate = useNavigate();
 	const { onSubmit, register, handleSubmit, errors } = useAuthPage();
 
-	const [viewDocuments, setViewDocuments] = useState([]);
+	const [viewDocuments, setViewDocuments] = useState<never[]>([]);
 	const [resultData, setResultData] = useState({});
-	const [isViewSearch, setIsViewSearch] = useState(true);
-	const [currentIndex, setCurrentIndex] = useState(0);
+	const [isViewSearch, setIsViewSearch] = useState<boolean>(true);
+	const [currentIndex, setCurrentIndex] = useState<number>(0);
 
 	const [numberOfPublication, setNumberOfPublication] = useState(10);
 
@@ -70,7 +70,7 @@ const Section: FC<ISectionProps> = ({ section }) => {
 			  )
 			: [];
 
-	function removeHtmlTags(text) {
+	function removeHtmlTags(text: string) {
 		return text.replace(/<[^>]*>/g, '');
 	}
 

@@ -18,8 +18,8 @@ const Header: FC = () => {
 		navigate('/');
 	};
 
-	const [companyLimit, setCompanyLimit] = useState(null);
-	const [usedCompanyCount, setUsedCompanyCount] = useState(null);
+	const [companyLimit, setCompanyLimit] = useState<null>(null);
+	const [usedCompanyCount, setUsedCompanyCount] = useState<null>(null);
 
 	const responseFunc = async () => {
 		try {

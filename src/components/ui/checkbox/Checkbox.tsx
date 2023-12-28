@@ -13,7 +13,7 @@ const Checkbox: FC<PropsWithChildren<ICheckboxProps>> = ({
 	id,
 	register,
 }) => {
-	const [checkOn, setCheckOn] = useState(false);
+	const [checkOn, setCheckOn] = useState<boolean>(false);
 
 	const handleChange = () => {
 		setCheckOn(!checkOn);

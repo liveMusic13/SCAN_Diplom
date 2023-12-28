@@ -3,14 +3,14 @@ import styles from './Slider.module.scss';
 import { data } from './data.slider';
 
 const Slider: FC = () => {
-	const [viewData, setViewData] = useState([0, 1, 2]);
-	const [viewDataTab, setViewDataTab] = useState([0, 1]);
-	const [viewDataMobile, setViewDataMobile] = useState([0]);
+	const [viewData, setViewData] = useState<number[]>([0, 1, 2]);
+	const [viewDataTab, setViewDataTab] = useState<number[]>([0, 1]);
+	const [viewDataMobile, setViewDataMobile] = useState<number[]>([0]);
 
 	const prevSlide = () => {
 		if (window.innerWidth <= 1500 && window.innerWidth > 991.98) {
 			setViewDataTab(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem > 0) {
 						return elem - 1;
 					} else {
@@ -21,7 +21,7 @@ const Slider: FC = () => {
 			});
 		} else if (window.innerWidth <= 991.98) {
 			setViewDataMobile(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem > 0) {
 						return elem - 1;
 					} else {
@@ -32,7 +32,7 @@ const Slider: FC = () => {
 			});
 		} else {
 			setViewData(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem > 0) {
 						return elem - 1;
 					} else {
@@ -47,7 +47,7 @@ const Slider: FC = () => {
 	const nextSlide = () => {
 		if (window.innerWidth <= 1500 && window.innerWidth > 991.98) {
 			setViewDataTab(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem < data.length - 1) {
 						return elem + 1;
 					} else {
@@ -58,7 +58,7 @@ const Slider: FC = () => {
 			});
 		} else if (window.innerWidth <= 991.98) {
 			setViewDataMobile(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem < data.length - 1) {
 						return elem + 1;
 					} else {
@@ -69,7 +69,7 @@ const Slider: FC = () => {
 			});
 		} else {
 			setViewData(prevState => {
-				const newState = prevState.map(elem => {
+				const newState = prevState.map((elem: number) => {
 					if (elem < data.length - 1) {
 						return elem + 1;
 					} else {
@@ -89,7 +89,7 @@ const Slider: FC = () => {
 
 			<div className={styles['block-advantages']}>
 				{window.innerWidth <= 1500 && window.innerWidth > 991.98
-					? viewDataTab.map(index => {
+					? viewDataTab.map((index: number) => {
 							const advant = data[index];
 							return (
 								<div
@@ -102,7 +102,7 @@ const Slider: FC = () => {
 							);
 					  })
 					: window.innerWidth <= 991.98
-					? viewDataMobile.map(index => {
+					? viewDataMobile.map((index: number) => {
 							const advant = data[index];
 							return (
 								<div
@@ -114,7 +114,7 @@ const Slider: FC = () => {
 								</div>
 							);
 					  })
-					: viewData.map(index => {
+					: viewData.map((index: number) => {
 							const advant = data[index];
 							return (
 								<div
