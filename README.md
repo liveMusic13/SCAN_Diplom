@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+# СКАН
 
 Дипломный проект курса Frontend разработчик.
 
